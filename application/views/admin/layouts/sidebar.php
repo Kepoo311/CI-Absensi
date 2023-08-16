@@ -51,13 +51,13 @@ $segmen3 = $this->uri->segment(3);
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/guru'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'active';} ?>">
+                <a href="<?php echo site_url(); ?>admin/guru" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Guru</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/kelas'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'kelas') {echo 'active';} ?>">
+                <a href="<?php echo site_url(); ?>admin/kelas" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'kelas') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Kelas</p>
                 </a>
