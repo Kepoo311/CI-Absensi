@@ -44,17 +44,17 @@
 
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <img src="<?= base_url()?>assets/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="">
-          <span class="d-none d-md-inline">Alexander Pierce</span>
+          <img src="<?= base_url()?>assets/dist/img/avatar.png" class="user-image img-circle elevation-2" alt="">
+          <span class="d-none d-md-inline">Farhan Febrian</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
           <li class="user-header bg-primary">
-            <img src="<?= base_url()?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="">
+            <img src="<?= base_url()?>assets/dist/img/avatar.png" class="img-circle elevation-2" alt="">
 
             <p>
-              Alexander Pierce - Web Developer
-              <small>Member since Nov. 2012</small>
+              Farhan Febrian
+              <small>Administrator</small>
             </p>
           </li>
           <!-- Menu Footer-->

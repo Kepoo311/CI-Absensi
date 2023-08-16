@@ -41,11 +41,11 @@ $segmen3 = $this->uri->segment(3);
           
           <li class="nav-header">Data</li>
           
-          <li class="nav-item <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'menu-open';} ?>">
-            <a href="#" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'active';} ?>">
+          <li class="nav-item <?php if ($segmen2 == 'guru' || $segmen2 == 'kelas' || $segmen2 == 'jadwal') {echo 'menu-open';} ?>">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
-                Input Data
+                Kelola Data
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -57,13 +57,13 @@ $segmen3 = $this->uri->segment(3);
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/guru'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'kelas') {echo 'active';} ?>">
+                <a href="<?php echo site_url('admin/kelas'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'kelas') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Kelas</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/guru'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'jadwal') {echo 'active';} ?>">
+                <a href="<?php echo site_url('admin/jadwal'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'jadwal') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Data Jadwal</p>
                 </a>
@@ -72,7 +72,7 @@ $segmen3 = $this->uri->segment(3);
           </li>
           
           <li class="nav-header">Absensi Guru</li>
-          <li class="nav-item">
+          <li class="nav-item <?php if ($segmen2 == 'input_absen' && $segmen3 == 'xii') {echo 'menu-open';} ?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
