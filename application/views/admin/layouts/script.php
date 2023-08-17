@@ -25,9 +25,14 @@
 <script>
   $(function () {
     $("#tabelGuru").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      "responsive": false, "lengthChange": false, "autoWidth": true,
+      "language": {
+          "paginate": {
+              "next": ">",
+              "previous": "<"
+          },
+      }
+    }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

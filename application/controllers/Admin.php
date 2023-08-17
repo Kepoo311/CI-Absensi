@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('minputdata');
+
+	}
+
 	public function index()
 	{
 		$this->load->view('admin/layouts/meta');
@@ -15,10 +22,13 @@ class Admin extends CI_Controller {
 
 	public function guru()
 	{
+        // Mengambil data guru dari model
+        $data['guru'] = $this->minputdata->GetDataGuru();
+
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+		$this->load->view('admin/data/guru', $data);
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -28,7 +38,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -38,7 +48,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -48,7 +58,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -58,7 +68,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -68,7 +78,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -78,7 +88,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -88,7 +98,7 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/data/guru');
+
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}

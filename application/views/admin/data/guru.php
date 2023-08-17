@@ -61,67 +61,29 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <table id="tabelGuru" class="table table-striped">
+          <table id="tabelGuru" class="table table-bordered">
             <thead>
               <tr>
-                <th>Rendering engine</th>
-                <th>Browser</th>
-                <th>Platform(s)</th>
-                <th>Engine version</th>
-                <th>CSS grade</th>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              
+              <?php foreach ($guru as $row) { ?>
               <tr>
-                <td>Misc</td>
-                <td>NetFront 3.4</td>
-                <td>Embedded devices</td>
-                <td>-</td>
-                <td>A</td>
+                  <td><?php echo $row->id_guru; ?></td>
+                  <td><?php echo $row->nama_guru; ?></td>
+                  <td>
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-sm btn-del">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
               </tr>
-              <tr>
-                <td>Misc</td>
-                <td>Dillo 0.8</td>
-                <td>Embedded devices</td>
-                <td>-</td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td>Misc</td>
-                <td>Links</td>
-                <td>Text only</td>
-                <td>-</td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td>Misc</td>
-                <td>Lynx</td>
-                <td>Text only</td>
-                <td>-</td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td>Misc</td>
-                <td>IE Mobile</td>
-                <td>Windows Mobile 6</td>
-                <td>-</td>
-                <td>C</td>
-              </tr>
-              <tr>
-                <td>Misc</td>
-                <td>PSP browser</td>
-                <td>PSP</td>
-                <td>-</td>
-                <td>C</td>
-              </tr>
-              <tr>
-                <td>Other browsers</td>
-                <td>All others</td>
-                <td>-</td>
-                <td>-</td>
-                <td>U</td>
-              </tr>
+              <?php } ?>
             </tbody>
           </table>
         </div>
