@@ -7,7 +7,9 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('minputdata');
-
+		$this->load->model('mabsensi');
+		$this->load->helper('form');
+        $this->load->helper('url');
 	}
 
 	public function index()
@@ -35,10 +37,12 @@ class Admin extends CI_Controller {
 
 	public function kelas()
 	{
+		$data['kelas'] = $this->minputdata->GetDataKelas();
+
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-
+		$this->load->view('admin/data/kelas', $data);
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -55,10 +59,12 @@ class Admin extends CI_Controller {
 
 	public function absen_xii()
 	{
+		$data['kelas'] = $this->mabsensi->AbsensiKelasXII();
+
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-
+		$this->load->view('admin/absen/xii', $data);
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -102,4 +108,23 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
+
+	public function edit_guru() 
+	{
+		$idGuru = $this->input->post('id');
+        $namaGuru = $this->input->post('nama');
+		
+		$this->minputdata->update_guru($idGuru, $namaGuru);
+
+		redirect('admin/guru','refresh');
+    }
+
+	public function add_guru() 
+	{
+        $namaGuru = $this->input->post('nama');
+		
+		$this->minputdata->add_guru($namaGuru);
+
+		redirect('admin/guru','refresh');
+    }
 }

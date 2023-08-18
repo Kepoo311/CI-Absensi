@@ -82,7 +82,7 @@ $segmen3 = $this->uri->segment(3);
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="<?php echo site_url('admin/absen_xii'); ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas XII</p>
                 </a>

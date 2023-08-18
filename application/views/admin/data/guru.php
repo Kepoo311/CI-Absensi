@@ -22,7 +22,7 @@
     <div class="container-fluid">
       <div class="card card-default">
         <div class="card-header">
-          <h3 class="card-title">Import From Excel</h3>
+          <h3 class="card-title">Tambah Data Guru</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -42,12 +42,12 @@
                 </div>
               </div>
             </div>
-            
           </form>
           <!-- /.row -->
         </div>
         <div class="card-footer">
-          <button type="submit" class="btn btn-info">Submit</button>
+          <button type="submit" class="btn btn-info">Import From Excel</button>
+          <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#modal-add">+ Add Manual</button>
         </div>
       </div>
       <div class="card">
@@ -59,8 +59,12 @@
             </button>
           </div>
         </div>
+        <!--
+          <button type="submit" class="btn btn-info" style="margin-right: 20px; margin-left: 20px; margin-top: 20px;">Add</button>
+        -->
         <!-- /.card-header -->
-        <div class="card-body">
+        <div class="card-body table-responsive">
+          <div>
           <table id="tabelGuru" class="table table-bordered">
             <thead>
               <tr>
@@ -72,10 +76,10 @@
             <tbody>
               <?php foreach ($guru as $row) { ?>
               <tr>
-                  <td><?php echo $row->id_guru; ?></td>
-                  <td><?php echo $row->nama_guru; ?></td>
+                  <td style="width: 30px;"><?php echo $row->id_guru; ?></td>
+                  <td style="width: 850px;"><?php echo $row->nama_guru; ?></td>
                   <td>
-                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="">
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-edit<?php echo $row->id_guru; ?>">
                       <i class="fa fa-edit"></i>
                     </a>
                     <a href="#" class="btn btn-danger btn-sm btn-del">
@@ -83,15 +87,72 @@
                     </a>
                   </td>
               </tr>
+              <div class="modal fade" id="modal-edit<?php echo $row->id_guru; ?>">
+                <div class="modal-dialog modal-edit">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Data</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form action="<?php echo base_url() ?>admin/edit_guru" method="post">
+                      <div class="modal-body">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                          </div>
+                          <input type="hidden" value="<?php echo $row->id_guru; ?>" name="id">
+                          <input type="text" class="form-control" value="<?php echo $row->nama_guru; ?>" name="nama" required>
+                        </div>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-info">Save changes</button>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+              </div>
               <?php } ?>
             </tbody>
           </table>
+          </div>
         </div>
         <!-- /.card-body -->
       </div>
       <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
+    <div class="modal fade" id="modal-add">
+      <div class="modal-dialog modal-edit">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Tambah Data</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="<?php echo base_url() ?>admin/add_guru" method="post">
+            <div class="modal-body">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nama Guru" name="nama" required>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
   </section>
   <!-- /.content -->
 </div>
