@@ -23,18 +23,56 @@
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <script>
-  $(function () {
-    $("#tabelGuru").DataTable({
-      "responsive": false, "lengthChange": false, "autoWidth": true,
-      "language": {
-          "paginate": {
-              "next": ">",
-              "previous": "<"
-          },
-      }
-    }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
+  $(document).ready(function(){
+
+    $('#dateb').change(function(){
+      var dateb = $('#dateb').val();
+      var selectedDate = new Date($('#dateb').val() + "-01");
+      var selectedMonth = selectedDate.getMonth() + 1;
+
+      $.ajax({
+        url: '<?php echo base_url(); ?>laporan/cetak_laporan',
+        type: 'post',
+        data: {selectedMonth:selectedMonth},
+        //dataType: 'json',
+        success: function(data)
+        {
+          $('#laporanBulan').html(data);
+        },
+        error:function()
+        {
+          alert('error ' + selectedMonth + '');
+        }
+      })
+    });
   });
 </script>
+
+<script>
+  $(document).ready(function(){
+    $(function () {
+      $("#tabelGuru").DataTable({
+        "responsive": false, "lengthChange": false, "autoWidth": true,
+        "language": {
+            "paginate": {
+                "next": ">",
+                "previous": "<"
+            },
+        }
+      }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
+      $("#laporanBulan").DataTable({
+        "responsive": false, "lengthChange": false, "autoWidth": true,
+        "language": {
+            "paginate": {
+                "next": ">",
+                "previous": "<"
+            },
+        }
+      }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
+    });
+  });
+</script>
+
 <script>
     $(function () {
       $('.select2').select2({
@@ -42,9 +80,35 @@
       })
   })
 </script>
+
 <script>
   $(function () {
     bsCustomFileInput.init();
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#kelas').change(function(){
+      var kelas = $(this).val();
+      var date = $('#date').val()
+      var hari = new Date(date).getDay();
+
+      $.ajax({
+        url: '<?php echo base_url(); ?>admin/show_jadwal',
+        type: 'post',
+        data: {kelas:kelas, date:date, hari:hari},
+        dataType: 'json',
+        success: function(data)
+        {
+          $('#dataguru').html(data);
+        },
+        error:function()
+        {
+          alert(''+ hari +' '+ kelas);
+        }
+      })
+    });
   });
 </script>
 </body>

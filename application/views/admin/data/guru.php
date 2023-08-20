@@ -77,7 +77,7 @@
               <?php foreach ($guru as $row) { ?>
               <tr>
                   <td style="width: 30px;"><?php echo $row->id_guru; ?></td>
-                  <td style="width: 850px;"><?php echo $row->nama_guru; ?></td>
+                  <td style="width: 750px;"><?php echo $row->nama_guru; ?></td>
                   <td>
                     <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-edit<?php echo $row->id_guru; ?>">
                       <i class="fa fa-edit"></i>

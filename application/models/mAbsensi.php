@@ -3,25 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class mAbsensi extends CI_Model {
 
-	function AbsensiKelasXII()
+	function GetDataKelas($kelas)
 	{
-		$this->db->like('nama_kelas', 'XII ', 'after'); // Menggunakan LIKE 'XI %'
-        $query = $this->db->get('data_kelas'); // Ganti 'nama_tabel' dengan nama tabel Anda
+		$this->db->like('nama_kelas', $kelas, 'after');
+        $query = $this->db->get('data_kelas');
         return $query->result();
 	}
 
-	function AbsensiKelasXI()
-	{
-		$this->db->like('nama_kelas', 'XI ', 'after'); // Menggunakan LIKE 'XI %'
-        $query = $this->db->get('data_kelas'); // Ganti 'nama_tabel' dengan nama tabel Anda
-        return $query->result();
-	}	
+	public function absensi_exists($kelas, $tanggal)
+    {
+        $this->db->where('kelas', $kelas);
+        $this->db->where('tanggal', $tanggal);
+        $query = $this->db->get('data_absensi');
+        return $query->num_rows() > 0;
+    }
 
-	function AbsensiKelasX()
-	{
-		$this->db->like('nama_kelas', 'X ', 'after'); // Menggunakan LIKE 'XI %'
-        $query = $this->db->get('data_kelas'); // Ganti 'nama_tabel' dengan nama tabel Anda
-        return $query->result();
-	}	
-
+    public function insert_absensi($data)
+    {
+        return $this->db->insert_batch('data_absensi', $data);
+    }
 }
