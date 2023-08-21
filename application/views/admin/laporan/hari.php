@@ -28,6 +28,11 @@
         <div class="container-fluid">
           <div style="text-align:center" class="card-header">
             <h3 class="card-title"><?= $row->kelas ?></h3>
+            <div class="card-tools">
+              <a href="#" class="btn btn-sm btn-tool">
+                <i class="fas fa-file-image"></i>
+              </a>
+            </div>
           </div>
           <br>
           <div class="table-responsive">

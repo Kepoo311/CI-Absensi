@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Input Data</h1>
+          <h1>Data Kelas</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Data Guru</li>
+            <li class="breadcrumb-item active">Data Kelas</li>
           </ol>
         </div>
       </div>
@@ -47,7 +47,8 @@
           <!-- /.row -->
         </div>
         <div class="card-footer">
-          <button type="submit" class="btn btn-info">Submit</button>
+          <button type="submit" class="btn btn-info">Import From Excel</button>
+          <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#modal-add">+ Add Manual</button>
         </div>
       </div>
       <div class="card">
@@ -90,6 +91,33 @@
         <!-- /.card-body -->
       </div>
       <!-- /.row -->
+    </div>
+    <div class="modal fade" id="modal-add">
+      <div class="modal-dialog modal-edit">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Tambah Data</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form action="<?php echo base_url() ?>admin/add_guru" method="post">
+            <div class="modal-body">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nama Kelas" name="nama" required>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="submit" class="btn btn-info">Submit</button>
+            </div>
+          </form>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
     </div>
     <!-- /.container-fluid -->
   </section>

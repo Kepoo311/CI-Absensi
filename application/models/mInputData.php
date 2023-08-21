@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class mInputData extends CI_Model {
 
+	public function hashPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+    
 	function GetDataGuru()
 	{
 		$query = $this->db->get('data_guru');

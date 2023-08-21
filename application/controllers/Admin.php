@@ -50,10 +50,12 @@ class Admin extends CI_Controller {
 
 	public function jadwal()
 	{
+		$data['kelas'] = $this->mabsensi->GetDataKelas('XII ');
+		
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
-
+		$this->load->view('admin/data/jadwal', $data);
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}

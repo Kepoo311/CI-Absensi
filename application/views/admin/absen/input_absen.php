@@ -65,6 +65,11 @@
         <div class="card card-default table-responsive" id="dataguru">
           <div class="card-header"> 
             <h3 class="card-title">Input Absensi</h3>
+            <div class="card-tools">
+              <a href="#" class="btn btn-sm btn-tool">
+                <i class="fas fa-upload"></i>
+              </a>
+            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
