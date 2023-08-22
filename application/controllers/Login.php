@@ -11,7 +11,7 @@ class Login extends CI_Controller {
 		$this->load->model('minputdata');
 	}
 
-	public function index() {
+	public function index2() {
         $this->load->view('password_form');
     }
 
@@ -34,7 +34,7 @@ class Login extends CI_Controller {
         }
     }
 
-	public function index2()
+	public function index()
 	{
 
 		$this->form_validation->set_rules('email', 'Email', 'trim|required');

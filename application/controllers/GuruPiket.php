@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+class Gurupiket extends CI_Controller {
 
 	public function __construct()
 	{
@@ -10,11 +10,16 @@ class Admin extends CI_Controller {
 		$this->load->model('mabsensi');
 		$this->load->model('mlaporan');
 		$this->load->helper('form');
-    $this->load->helper('url');
+    	$this->load->helper('url');
+		$this->load->library('session');
 	}
 
 	public function index()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
 		$this->load->view('guru_piket/layouts/sidebar');
@@ -25,8 +30,11 @@ class Admin extends CI_Controller {
 
 	public function guru()
 	{
-    // Mengambil data guru dari model
-    $data['guru'] = $this->minputdata->GetDataGuru();
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
+    	$data['guru'] = $this->minputdata->GetDataGuru();
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
@@ -38,6 +46,10 @@ class Admin extends CI_Controller {
 
 	public function kelas()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$data['kelas'] = $this->minputdata->GetDataKelas();
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -50,6 +62,10 @@ class Admin extends CI_Controller {
 
 	public function jadwal()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$data['kelas'] = $this->mabsensi->GetDataKelas('XII ');
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -62,6 +78,10 @@ class Admin extends CI_Controller {
 
 	public function absen_xii()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$data['kelas'] = $this->mabsensi->GetDataKelas('XII ');
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -74,6 +94,10 @@ class Admin extends CI_Controller {
 
 	public function absen_xi()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$data['kelas'] = $this->mabsensi->GetDataKelas('XI ');
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -86,6 +110,10 @@ class Admin extends CI_Controller {
 
 	public function absen_x()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$data['kelas'] = $this->mabsensi->GetDataKelas('X ');
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -98,9 +126,13 @@ class Admin extends CI_Controller {
 
 	public function laporan_hari()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen();
         
-    $data['kelas'] = $kelas_sudah_absen;
+    	$data['kelas'] = $kelas_sudah_absen;
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
@@ -112,6 +144,10 @@ class Admin extends CI_Controller {
 
 	public function laporan_bulan()
 	{
+		if ($this->session->userdata('role') != 'Guru Piket') {
+			redirect('','refresh');
+		}
+
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
 		$this->load->view('guru_piket/layouts/sidebar');
@@ -132,14 +168,14 @@ class Admin extends CI_Controller {
 
 	public function add_guru() 
 	{
-    $namaGuru = $this->input->post('nama');
+    	$namaGuru = $this->input->post('nama');
 		
 		$this->minputdata->add_guru($namaGuru);
 
 		redirect('guru_piket/guru','refresh');
-  }
+ 	 }
 
-  public function data_jadwal()
+  	public function data_jadwal()
 	{
 		$kelas = $_POST['kelas'];
 	    $tg = $_POST['date'];
