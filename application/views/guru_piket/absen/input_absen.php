@@ -58,7 +58,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-          Pergi ke <a href="<?php echo site_url('admin/laporan_hari'); ?>">Laporan Hari ini</a> Jika ingin mengedit daftar absensi yang sudah di input.
+          Pergi ke <a href="<?php echo site_url('gurupiket/laporan_hari'); ?>">Laporan Hari ini</a> Jika ingin mengedit daftar absensi yang sudah di input.
         </div>
       </div>
       <form action="<?php echo base_url() ?>admin/input_absen" method="post">

@@ -10,7 +10,7 @@ class Gurupiket extends CI_Controller {
 		$this->load->model('mabsensi');
 		$this->load->model('mlaporan');
 		$this->load->helper('form');
-    	$this->load->helper('url');
+    $this->load->helper('url');
 		$this->load->library('session');
 	}
 
@@ -20,10 +20,15 @@ class Gurupiket extends CI_Controller {
 			redirect('','refresh');
 		}
 
+		$data['gurupiket'] = $this->mabsensi->jumlah_users('Guru Piket');
+		$data['guru'] = $this->mabsensi->jumlah_guru();
+		$data['kelas'] = $this->mabsensi->jumlah_kelas();
+		$data['jadwal'] = $this->mabsensi->jumlah_jadwal();
+
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
 		$this->load->view('guru_piket/layouts/sidebar');
-		$this->load->view('guru_piket/dashboard');
+		$this->load->view('guru_piket/dashboard', $data);
 		$this->load->view('guru_piket/layouts/footer');
 		$this->load->view('guru_piket/layouts/script');
 	}
@@ -132,7 +137,7 @@ class Gurupiket extends CI_Controller {
 
 		$kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen();
         
-    	$data['kelas'] = $kelas_sudah_absen;
+    $data['kelas'] = $kelas_sudah_absen;
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
@@ -355,8 +360,8 @@ class Gurupiket extends CI_Controller {
 		$tanggal = $this->input->post('date');
 
 		if (!$this->mabsensi->absensi_exists($kelas, $tanggal)) {
-            // Lakukan input absensi
-            $nama_guru = $this->input->post('nama_guru[]');
+
+      $nama_guru = $this->input->post('nama_guru[]');
 			$absen = $this->input->post('absen[]');
 			$ket_lain = $this->input->post('ket_lain[]');
 

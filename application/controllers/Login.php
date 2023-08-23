@@ -59,6 +59,8 @@ class Login extends CI_Controller {
 			{
 				$data = 
 				[
+					'id' => $query['id'],
+					'nama' => $query['username'],
 					'email' => $email,
 					'session' => date('d-m-Y H:m:s'),
 					'role' => $query['role'],

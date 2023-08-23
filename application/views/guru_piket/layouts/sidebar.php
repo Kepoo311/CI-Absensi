@@ -8,7 +8,7 @@ $segmen3 = $this->uri->segment(3);
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar main-sidebar-custom sidebar-dark-info elevation-4">
     <!-- Brand Logo -->
-    <a href="<?php echo site_url('admin'); ?>" class="brand-link">
+    <a href="<?php echo site_url('gurupiket'); ?>" class="brand-link">
       <img src="<?= base_url()?>assets/dist/img/SkanpatLogo.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">SMK NEGERI 4</span>
     </a>
@@ -33,42 +33,10 @@ $segmen3 = $this->uri->segment(3);
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="<?php echo site_url('admin'); ?>" class="nav-link <?php if ($segmen1 == '' || ($segmen1 == 'admin' && $segmen2 == '')) {echo 'active';} ?>">
+            <a href="<?php echo site_url('gurupiket'); ?>" class="nav-link <?php if ($segmen1 == '' || ($segmen1 == 'gurupiket' && $segmen2 == '')) {echo 'active';} ?>">
             <i class="nav-icon fas fa-chart-pie"></i>
               <p>Dashboard</p>
             </a>
-          </li>
-          
-          <li class="nav-header">Data</li>
-          
-          <li class="nav-item <?php if ($segmen2 == 'guru' || $segmen2 == 'kelas' || $segmen2 == 'jadwal') {echo 'menu-open';} ?>">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Kelola Data
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?php echo site_url(); ?>admin/guru" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Guru</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?php echo site_url(); ?>admin/kelas" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'kelas') {echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Kelas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?php echo site_url('admin/jadwal'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'jadwal') {echo 'active';} ?>">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Data Jadwal</p>
-                </a>
-              </li>
-            </ul>
           </li>
           
           <li class="nav-header">Absensi Guru</li>
@@ -82,19 +50,19 @@ $segmen3 = $this->uri->segment(3);
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/absen_xii'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'absen_xii') {echo 'active';} ?>">
+                <a href="<?php echo site_url('gurupiket/absen_xii'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'absen_xii') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas XII</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/absen_xi'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'absen_xi') {echo 'active';} ?>">
+                <a href="<?php echo site_url('gurupiket/absen_xi'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'absen_xi') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas XI</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/absen_x'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'absen_x') {echo 'active';} ?>">
+                <a href="<?php echo site_url('gurupiket/absen_x'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'absen_x') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kelas X</p>
                 </a>
@@ -113,13 +81,13 @@ $segmen3 = $this->uri->segment(3);
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/laporan_hari'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'laporan_hari') {echo 'active';} ?>">
+                <a href="<?php echo site_url('gurupiket/laporan_hari'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'laporan_hari') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hari</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?php echo site_url('admin/laporan_bulan'); ?>" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'laporan_bulan') {echo 'active';} ?>">
+                <a href="<?php echo site_url('gurupiket/laporan_bulan'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'laporan_bulan') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bulan</p>
                 </a>

@@ -14,7 +14,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?php echo site_url('admin'); ?>" class="nav-link">Home</a>
+        <a href="<?php echo site_url('gurupiket'); ?>" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -44,17 +44,17 @@
 
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-          <img src="<?= base_url()?>assets/dist/img/avatar.png" class="user-image img-circle elevation-2" alt="">
-          <span class="d-none d-md-inline">Farhan Febrian</span>
+          <img src="<?= base_url()?>assets/dist/img/user2.png" class="user-image img-circle elevation-2" alt="">
+          <span class="d-none d-md-inline"><?= $this->session->userdata('nama'); ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
-          <li class="user-header bg-primary">
-            <img src="<?= base_url()?>assets/dist/img/avatar.png" class="img-circle elevation-2" alt="">
+          <li class="user-header bg-white">
+            <img src="<?= base_url()?>assets/dist/img/user2.png" class="img-circle elevation-2" alt="">
 
             <p>
-              Farhan Febrian
-              <small>Administrator</small>
+              <?= $this->session->userdata('nama'); ?>
+              <small><?= $this->session->userdata('role'); ?></small>
             </p>
           </li>
           <!-- Menu Footer-->
