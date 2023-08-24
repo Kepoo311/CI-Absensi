@@ -21,6 +21,22 @@
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Toastr -->
+<script src="<?= base_url()?>assets/plugins/toastr/toastr.min.js"></script>
+
+<script>
+	const flash_success = $('.flash_success').data('flash_success');
+	if (flash_success) {
+		toastr.success(flash_success)
+	}
+</script>
+
+<script>
+	const flash_error = $('.flash_error').data('flash_error');
+	if (flash_error) {
+		toastr.error(flash_error)
+	}
+</script>
 
 <script>
   $(document).ready(function(){

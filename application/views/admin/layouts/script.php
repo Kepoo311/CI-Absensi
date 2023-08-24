@@ -8,6 +8,8 @@
 <script src="<?= base_url()?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url()?>assets/plugins/select2/js/select2.full.min.js"></script>
+<!-- Toastr -->
+<script src="<?= base_url()?>assets/plugins/toastr/toastr.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?= base_url()?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -21,6 +23,34 @@
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+	const flash_success = $('.flash_success').data('flash_success');
+	if (flash_success) {
+		toastr.success(flash_success)
+	}
+</script>
+
+<script>
+	const flash_error = $('.flash_error').data('flash_error');
+	if (flash_error) {
+		toastr.error(flash_error)
+	}
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('#uploadfile').change(function(){
+      var uploadButton = document.getElementById('uploadbutton');
+      
+      if (this.files.length > 0) {
+              uploadButton.disabled = false;
+          } else {
+              uploadButton.disabled = true;
+          }
+    });
+  });
+</script>
 
 <script>
   $(document).ready(function(){
@@ -95,7 +125,7 @@
       var hari = new Date(date).getDay();
 
       $.ajax({
-        url: '<?php echo base_url(); ?>admin/show_jadwal',
+        url: '<?php echo base_url(); ?>admin/show_datajadwal',
         type: 'post',
         data: {kelas:kelas, date:date, hari:hari},
         dataType: 'json',

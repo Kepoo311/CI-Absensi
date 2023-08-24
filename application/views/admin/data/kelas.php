@@ -19,6 +19,8 @@
 
   <!-- Main content -->
   <section class="content">
+    <div class="flash_success" data-flash_success="<?php echo $this->session->flashdata('success'); ?>"></div>
+    <div class="flash_error" data-flash_error="<?php echo $this->session->flashdata('error'); ?>"></div>
     <div class="container-fluid">
       <div class="card card-default">
         <div class="card-header">
@@ -32,42 +34,45 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form>
+          <form action="<?= site_url('admin/process_upload'); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
-              <label for="exampleInputFile">File input</label>
+              <label for="uploadfile">File input</label>
               <div class="input-group">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="exampleInputFile">
-                  <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                  <input type="file" class="custom-file-input" id="uploadfile" name="uploadfile" accept=".xlsx, .xls">
+                  <label class="custom-file-label" for="uploadfile">Choose file</label>
                 </div>
               </div>
             </div>
-            
+            <button type="submit" class="btn btn-info" id="uploadbutton" disabled>Import From Excel</button>
           </form>
           <!-- /.row -->
         </div>
         <div class="card-footer">
-          <button type="submit" class="btn btn-info">Import From Excel</button>
-          <button type="submit" class="btn btn-warning" data-toggle="modal" data-target="#modal-add">+ Add Manual</button>
+          <?php
+            $filename = 'Kelas.xlsx'; // Nama file yang ingin diunduh
+            $download_url = site_url('admin/downloadFile/' . $filename);
+          ?>
+          Download template file excel <a href="<?= $download_url ?>">Disini</a>.
         </div>
       </div>
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Data Guru</h3>
           <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-              <i class="fas fa-minus"></i>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-add">
+              <i class="fas fa-plus"></i>
             </button>
           </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
+        <div class="card-body table-responsive">
           <table id="tabelGuru" class="table table-bordered">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Kelas</th>
-                <th>Aksi</th>
+                <th style="width: 30px;">ID</th>
+                <th style="width: 800px;">Kelas</th>
+                <th style="width: 111px;">Aksi</th>
               </tr>
             </thead>
             <tbody>

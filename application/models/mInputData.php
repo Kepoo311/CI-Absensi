@@ -29,11 +29,14 @@ class mInputData extends CI_Model {
 	{
         $data = array('nama_guru' => $namaGuru);
         $this->db->where('id_guru', $idGuru);
-        $this->db->update('data_guru', $data);
+        return $this->db->update('data_guru', $data);
     }
 
 	public function add_guru($namaGuru) 
 	{
-        $this->db->insert('data_guru', $namaGuru);
+		$guru_data = array(
+			'nama_guru' => $namaGuru
+		);
+		return $this->db->insert('data_guru', $guru_data);
     }
 }

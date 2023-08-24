@@ -10,7 +10,7 @@ class Gurupiket extends CI_Controller {
 		$this->load->model('mabsensi');
 		$this->load->model('mlaporan');
 		$this->load->helper('form');
-    $this->load->helper('url');
+    	$this->load->helper('url');
 		$this->load->library('session');
 	}
 
@@ -23,6 +23,7 @@ class Gurupiket extends CI_Controller {
 		$data['gurupiket'] = $this->mabsensi->jumlah_users('Guru Piket');
 		$data['guru'] = $this->mabsensi->jumlah_guru();
 		$data['kelas'] = $this->mabsensi->jumlah_kelas();
+		$data['sudah_absen'] = $this->mabsensi->j_kelas_sudah_absen();
 		$data['jadwal'] = $this->mabsensi->jumlah_jadwal();
 
 		$this->load->view('guru_piket/layouts/meta');
@@ -137,7 +138,7 @@ class Gurupiket extends CI_Controller {
 
 		$kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen();
         
-    $data['kelas'] = $kelas_sudah_absen;
+    	$data['kelas'] = $kelas_sudah_absen;
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');

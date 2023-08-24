@@ -1,4 +1,7 @@
 <?php
+
+use SebastianBergmann\Environment\Console;
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
@@ -10,8 +13,9 @@ class Admin extends CI_Controller {
 		$this->load->model('mabsensi');
 		$this->load->model('mlaporan');
 		$this->load->helper('form');
-    $this->load->helper('url');
+    	$this->load->helper('url');
 		$this->load->library('session');
+		$this->load->helper('download');
 	}
 
 	public function index()
@@ -71,7 +75,7 @@ class Admin extends CI_Controller {
 			redirect('','refresh');
 		}
 
-		$data['kelas'] = $this->mabsensi->GetDataKelas('XII ');
+		$data['kelas'] = $this->mabsensi->GetDataKelas('X');
 		
 		$this->load->view('admin/layouts/meta');
 		$this->load->view('admin/layouts/navbar');
@@ -166,7 +170,12 @@ class Admin extends CI_Controller {
 		$idGuru = $this->input->post('id');
         $namaGuru = $this->input->post('nama');
 		
-		$this->minputdata->update_guru($idGuru, $namaGuru);
+		$insert = $this->minputdata->update_guru($idGuru, $namaGuru);
+		if ($insert) {
+			$this->session->set_flashdata('success', 'Edit Nama Guru berhasil');
+		} else {
+			$this->session->set_flashdata('error', 'Edit Nama Guru Gagal');
+		}
 
 		redirect('admin/guru','refresh');
     }
@@ -175,96 +184,248 @@ class Admin extends CI_Controller {
 	{
         $namaGuru = $this->input->post('nama');
 		
-		$this->minputdata->add_guru($namaGuru);
+		$insert = $this->minputdata->add_guru($namaGuru);
+		if ($insert) {
+			$this->session->set_flashdata('success', 'Tambah Guru berhasil');
+		} else {
+			$this->session->set_flashdata('error', 'Tambah Guru Gagal');
+		}
 
 		redirect('admin/guru','refresh');
     }
 
-  public function show_jadwal()
+	public function process_upload() 
+	{
+        //$this->load->library('PhpSpreadsheet');
+        
+        if ($_FILES['uploadfile']['name']) 
+		{
+            $inputFileName = $_FILES['uploadfile']['tmp_name'];
+
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            $headers = array_shift($rows);
+
+            foreach ($rows as $row) {
+                $data = array_combine($headers, $row);
+
+                $guru_data = array(
+                    'nama_guru' => $data['nama_guru']
+                );
+
+                $this->db->insert('data_guru', $guru_data);
+            }
+
+			$this->session->set_flashdata('success', 'Import data Guru berhasil');
+            redirect('admin/guru','refresh');
+        }
+    }
+
+	public function downloadFile($filename)
+	{
+    	$file_path = FCPATH . 'assets/files/' . $filename;
+		$new_file_name = $filename;
+
+		force_download($new_file_name, file_get_contents($file_path));
+		$this->session->set_flashdata('success', 'File sedang di download.');
+		redirect('admin/guru','refresh');
+	}
+
+	
+
+	public function show_datajadwal()
 	{
 		$kelas = $_POST['kelas'];
 	    $tg = $_POST['date'];
 	    $idhariini = $_POST['hari'];
 
-	    function tgl_indo($tanggal){
-	      $bulan = array (
-	        1 =>   'Januari',
-	        'Februari',
-	        'Maret',
-	        'April',
-	        'Mei',
-	        'Juni',
-	        'Juli',
-	        'Agustus',
-	        'September',
-	        'Oktober',
-	        'November',
-	        'Desember'
-	      );
-	      $pecahkan = explode('-', $tanggal);
-	      
-	     
-	      return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
-	    }
+
+		function tgl_indo($tanggal)
+		{
+			$nama_hari = array(
+				'Sunday' => 'Minggu',
+				'Monday' => 'Senin',
+				'Tuesday' => 'Selasa',
+				'Wednesday' => 'Rabu',
+				'Thursday' => 'Kamis',
+				'Friday' => 'Jumat',
+				'Saturday' => 'Sabtu'
+			);
+
+			$bulan = array (
+			1 =>   'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+			);
+			$pecahkan = explode('-', $tanggal);
+			$hari = date('l');
+		
+			return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
+		}
 
 	    $query = $this->db->get_where('jadwal_pelajaran', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
 	    $jadwal_pelajaran = $query->result();
 
 		$data = '';
-		$data .= '<div class="card-header"><h3 class="card-title">Input Absensi</h3></div><div class="card-body">
+		$data .= '<div class="card-header"><h3 class="card-title">Input Absensi</h3>
+			<div class="card-tools">
+			<button type="button" class="btn btn-info">
+				<i class="fas fa-upload"></i> Bukti
+			</button>
+            </div>
+			</div><div class="card-body">
 	          <div class="row">
 	            <div class="col-md-12">
 	              <table>
 	                <tr>
 	                  <td style="padding-right: 20px">Nama Kelas</td><td>:</td><td style="padding-left: 10px">';
-    $data .= $kelas;
-    $data .= '<input type="hidden" name="kelas" value="'.$kelas.'"> ';
+		$data .= $kelas;
+		$data .= '</td>
+				</tr><tr><td>Tanggal</td><td>:</td><td style="padding-left: 10px">';
+		$data .= tgl_indo($tg);
+		$data .= '</td>
+				</tr>
+				</table>
+				<br>
+				<table class="table">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Nama</th>
+						<th>Keterangan</th>
+					</tr>
+				</thead>
+				<tbody>';
+		$no = 1;
+		foreach ($jadwal_pelajaran as $query) {
+			$data .= '<tr><td>';
+			$data .= $no++;
+			$data .= '</td>';
+			$data .= '<td>';
+			$data .= $query->nama_guru;
+			$data .= '<td>';
+			$data .= '';
+			$data .= '</td></tr>';
 
-    $data .= '<input type="hidden" name="date" value="'.$tg.'"> ';
-    $data .= '</td>
-              </tr><tr><td>Tanggal</td><td>:</td><td style="padding-left: 10px">';
-    $data .= tgl_indo($tg);
-    $data .= '</td>
-              </tr>
-            </table>
-            <br>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Absensi</th>
-                  <th>Keterangan Lain</th>
-                </tr>
-              </thead>
-              <tbody>';
-    $no = 1;
-    foreach ($jadwal_pelajaran as $query) {
-      $data .= '<input type="hidden" name="nama_guru[]" value="'.$query->nama_guru.'"> ';
-    	$data .= '<tr><td>';
-    	$data .= $no++;
-    	$data .= '</td>';
-    	$data .= '<td>';
-    	$data .= $query->nama_guru;
-    	$data .= '<td>';
-    	$data .= '<select name="absen[]" id="absen" class="form-control">
-			<option value="Hadir">Hadir</option>
-			<option value="Sakit">Sakit</option>
-			<option value="Ijin">Ijin</option>
-			<option value="Alpa">Tanpa Keterangan</option>
-			</select>';
-    	$data .= '</td>';
-    	$data .= '<td>';
-    	$data .= '<input type="text" name="ket_lain[]" id="ket_lain" class="form-control">';
-    	$data .= '</td></tr>';
-
-    }
-    $data .= '</tbody></table>';
-    $data .= '</div></div></div></div>';
-    $data .= '<button type="submit" class="btn btn-info">Input</button>';
-        	
+		}
+		$data .= '</tbody></table>';
+		$data .= '</div></div></div></div>';
+				
 		echo json_encode($data);
+	}
 
+  	public function show_jadwal()
+	{
+		$kelas = $_POST['kelas'];
+	    $tg = $_POST['date'];
+	    $idhariini = $_POST['hari'];
+
+		function tgl_indoo($tanggal)
+		{
+			$nama_hari = array(
+				'Sunday' => 'Minggu',
+				'Monday' => 'Senin',
+				'Tuesday' => 'Selasa',
+				'Wednesday' => 'Rabu',
+				'Thursday' => 'Kamis',
+				'Friday' => 'Jumat',
+				'Saturday' => 'Sabtu'
+			);
+
+			$bulan = array (
+			1 =>   'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+			);
+			$pecahkan = explode('-', $tanggal);
+			$hari = date('l');
+		
+			return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
+		}
+
+	    $query = $this->db->get_where('jadwal_pelajaran', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
+	    $jadwal_pelajaran = $query->result();
+
+		$data = '';
+		$data .= '<div class="card-header"><h3 class="card-title">Input Absensi</h3>
+			<div class="card-tools">
+			<button type="button" class="btn btn-info">
+				<i class="fas fa-upload"></i> Bukti
+			</button>
+            </div>
+			</div><div class="card-body">
+	          <div class="row">
+	            <div class="col-md-12">
+	              <table>
+	                <tr>
+	                  <td style="padding-right: 20px">Nama Kelas</td><td>:</td><td style="padding-left: 10px">';
+		$data .= $kelas;
+		$data .= '<input type="hidden" name="kelas" value="'.$kelas.'"> ';
+
+		$data .= '<input type="hidden" name="date" value="'.$tg.'"> ';
+		$data .= '</td>
+				</tr><tr><td>Tanggal</td><td>:</td><td style="padding-left: 10px">';
+		$data .= tgl_indoo($tg);
+		$data .= '</td>
+				</tr>
+				</table>
+				<br>
+				<table class="table">
+				<thead>
+					<tr>
+					<th>No</th>
+					<th>Nama</th>
+					<th>Absensi</th>
+					<th>Keterangan Lain</th>
+					</tr>
+				</thead>
+				<tbody>';
+		$no = 1;
+		foreach ($jadwal_pelajaran as $query) {
+			$data .= '<input type="hidden" name="nama_guru[]" value="'.$query->nama_guru.'"> ';
+			$data .= '<tr><td>';
+			$data .= $no++;
+			$data .= '</td>';
+			$data .= '<td>';
+			$data .= $query->nama_guru;
+			$data .= '<td>';
+			$data .= '<select name="absen[]" id="absen" class="form-control">
+				<option value="Hadir">Hadir</option>
+				<option value="Sakit">Sakit</option>
+				<option value="Ijin">Ijin</option>
+				<option value="Alpa">Tanpa Keterangan</option>
+				</select>';
+			$data .= '</td>';
+			$data .= '<td>';
+			$data .= '<input type="text" name="ket_lain[]" id="ket_lain" class="form-control">';
+			$data .= '</td></tr>';
+
+		}
+		$data .= '</tbody></table>';
+		$data .= '</div></div></div></div>';
+		$data .= '<button type="submit" class="btn btn-info">Input</button>';
+				
+		echo json_encode($data);
 	}
 
 	function input_absen()
@@ -272,9 +433,10 @@ class Admin extends CI_Controller {
 		$kelas = $this->input->post('kelas');
 		$tanggal = $this->input->post('date');
 
-		if (!$this->mabsensi->absensi_exists($kelas, $tanggal)) {
-      // Lakukan input absensi
-      $nama_guru = $this->input->post('nama_guru[]');
+		if (!$this->mabsensi->absensi_exists($kelas, $tanggal)) 
+		{
+      		// Lakukan input absensi
+      		$nama_guru = $this->input->post('nama_guru[]');
 			$absen = $this->input->post('absen[]');
 			$ket_lain = $this->input->post('ket_lain[]');
 
@@ -296,12 +458,19 @@ class Admin extends CI_Controller {
 				$index++;
 				
 			}
-            $this->mabsensi->insert_absensi($data);
-            redirect('guru_piket/absen_xii','refresh');
+            $insert = $this->mabsensi->insert_absensi($data);
+			if ($insert) {
+				$this->session->set_flashdata('success', 'Input data absen berhasil');
+				redirect('gurupiket/absen_xii','refresh');
+			} else {
+				$this->session->set_flashdata('error', 'Input data absen kelas Gagal');
+				redirect('gurupiket/absen_xii','refresh');
+			}
+            
             
         } else {
-            
-			redirect('guru_piket/absen_xii','refresh');
+            $this->session->set_flashdata('error', 'Kelas ini sudah di absen');
+			redirect('gurupiket/absen_xii','refresh');
         }
 	}
 

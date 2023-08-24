@@ -21,10 +21,59 @@
   <section class="content">
     <div class="container-fluid">
       <!-- Info boxes -->
-      <div class="alert alert-light alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h5><i class="icon fas fa-hand-paper"></i> Selamat datang <?= $this->session->userdata('nama'); ?>, di Web Absensi!</h5>
-        Kamu login sebagai <?= $this->session->userdata('role'); ?>.
+      <div class="row">
+        <div class="col-12 col-sm-9">
+          <div class="alert alert-light alert-dismissible">
+            <h5><i class="icon fas fa-hand-paper"></i> Selamat datang <?= $this->session->userdata('nama'); ?>!</h5>
+            Kamu login sebagai <?= $this->session->userdata('role'); ?>.
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-white elevation-1"><i class="fas fa-calendar"></i></span>
+
+            <div class="info-box-content">
+              <?php
+              
+              function tgl_indo($tanggal){
+                $nama_hari = array(
+                    'Sunday' => 'Minggu',
+                    'Monday' => 'Senin',
+                    'Tuesday' => 'Selasa',
+                    'Wednesday' => 'Rabu',
+                    'Thursday' => 'Kamis',
+                    'Friday' => 'Jumat',
+                    'Saturday' => 'Sabtu'
+                );
+
+                $bulan = array (
+                  1 =>   'Januari',
+                  'Februari',
+                  'Maret',
+                  'April',
+                  'Mei',
+                  'Juni',
+                  'Juli',
+                  'Agustus',
+                  'September',
+                  'Oktober',
+                  'November',
+                  'Desember'
+                );
+                $pecahkan = explode('-', $tanggal);
+                $hari = date('l');
+               
+                return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
+              }
+              
+              ?>
+              <span class="info-box-text"><?= tgl_indo(date('Y-m-d')) ?></span>
+              <span class="info-box-number"><?php echo date('H:i'); ?></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
       </div>
       <div class="row">
         <div class="col-lg-3 col-6">

@@ -19,6 +19,8 @@
 
   <!-- Main content -->
   <section class="content">
+    <div class="flash_success" data-flash_success="<?php echo $this->session->flashdata('success'); ?>"></div>
+    <div class="flash_error" data-flash_error="<?php echo $this->session->flashdata('error'); ?>"></div>
     <div class="container-fluid">
       <!-- SELECT2 EXAMPLE -->
       <div class="card card-default">
@@ -65,11 +67,6 @@
         <div class="card card-default table-responsive" id="dataguru">
           <div class="card-header"> 
             <h3 class="card-title">Input Absensi</h3>
-            <div class="card-tools">
-              <a href="#" class="btn btn-sm btn-tool">
-                <i class="fas fa-upload"></i>
-              </a>
-            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">

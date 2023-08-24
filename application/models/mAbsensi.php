@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class mAbsensi extends CI_Model {
 
+    public function j_kelas_sudah_absen()
+    {
+        $this->db->distinct();
+        $this->db->select('kelas');
+        $this->db->where('tanggal', date('2023-08-15'));
+        return $this->db->count_all_results('data_absensi');
+    }
+
     public function jumlah_kelas()
     {
         return $this->db->count_all_results('data_kelas');

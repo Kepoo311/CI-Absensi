@@ -7,7 +7,7 @@ class mLaporan extends CI_Model {
    {
       $this->db->distinct();
       $this->db->select('kelas');
-      $this->db->where('tanggal', date('2023-08-14'));
+      $this->db->where('tanggal', date('2023-08-15'));
       $this->db->group_by('kelas');
       $this->db->order_by('kelas', 'ASC');
       return $this->db->get('data_absensi')->result();
@@ -21,7 +21,7 @@ class mLaporan extends CI_Model {
    public function absensi_hari_ini($kelas)
    {
      $this->db->where('kelas', $kelas);
-     $this->db->where('tanggal', date('2023-08-14'));
+     $this->db->where('tanggal', date('2023-08-15'));
      return $this->db->get('data_absensi')->result();
    }
 
