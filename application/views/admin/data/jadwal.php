@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form action="<?= site_url('admin/process_upload'); ?>" method="post" enctype="multipart/form-data">
+          <form action="<?= site_url('admin/import_jadwal'); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="uploadfile">File input</label>
               <div class="input-group">
@@ -93,7 +93,7 @@
         </div>
         <!-- /.card-body -->
       </div>
-      <form action="<?php echo base_url() ?>admin/input_absen" method="post">
+      <form action="<?php echo site_url() ?>admin/input_absen" method="post">
         <div class="card card-default table-responsive" id="dataguru">
           <div class="card-header"> 
             <h3 class="card-title">Input Absensi</h3>

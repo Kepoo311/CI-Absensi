@@ -18,7 +18,8 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
-      
+      <div class="flash_success" data-flash_success="<?php echo $this->session->flashdata('success'); ?>"></div>
+      <div class="flash_error" data-flash_error="<?php echo $this->session->flashdata('error'); ?>"></div>
       <button type="button" style="display: none" id="tombol-cetak" class="btn btn-success btn-flat" onclick="printJS('daftar', 'html')"><i class="fas fa-print"></i>
         Cetak
       </button><br>

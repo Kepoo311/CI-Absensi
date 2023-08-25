@@ -208,7 +208,7 @@ class Gurupiket extends CI_Controller {
 	      return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
 	    }
 
-	    $query = $this->db->get_where('jadwal_pelajaran', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
+	    $query = $this->db->get_where('tb_jadwal', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
 	    $jadwal_pelajaran = $query->result();
 
 			$data = '';
@@ -268,34 +268,44 @@ class Gurupiket extends CI_Controller {
 
 	}
 
-  public function show_jadwal()
+  	public function show_jadwal()
 	{
 		$kelas = $_POST['kelas'];
 	    $tg = $_POST['date'];
 	    $idhariini = $_POST['hari'];
 
 	    function tgl_indo($tanggal){
-	      $bulan = array (
-	        1 =>   'Januari',
-	        'Februari',
-	        'Maret',
-	        'April',
-	        'Mei',
-	        'Juni',
-	        'Juli',
-	        'Agustus',
-	        'September',
-	        'Oktober',
-	        'November',
-	        'Desember'
-	      );
-	      $pecahkan = explode('-', $tanggal);
-	      
-	     
-	      return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+			$nama_hari = array(
+				'Sunday' => 'Minggu',
+				'Monday' => 'Senin',
+				'Tuesday' => 'Selasa',
+				'Wednesday' => 'Rabu',
+				'Thursday' => 'Kamis',
+				'Friday' => 'Jumat',
+				'Saturday' => 'Sabtu'
+			);
+
+			$bulan = array (
+			1 =>   'Januari',
+			'Februari',
+			'Maret',
+			'April',
+			'Mei',
+			'Juni',
+			'Juli',
+			'Agustus',
+			'September',
+			'Oktober',
+			'November',
+			'Desember'
+			);
+			$pecahkan = explode('-', $tanggal);
+			$hari = date('l');
+		
+			return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
 	    }
 
-	    $query = $this->db->get_where('jadwal_pelajaran', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
+	    $query = $this->db->get_where('tb_jadwal', array('nama_kelas' => $kelas, 'id_hari' => $idhariini));
 	    $jadwal_pelajaran = $query->result();
 
 		$data = '';

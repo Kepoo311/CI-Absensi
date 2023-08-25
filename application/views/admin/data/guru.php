@@ -103,7 +103,7 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <form action="<?php echo base_url() ?>admin/edit_guru" method="post">
+                    <form action="<?php echo site_url() ?>admin/edit_guru" method="post">
                       <div class="modal-body">
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -141,7 +141,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="<?php echo base_url() ?>admin/add_guru" method="post">
+          <form action="<?php echo site_url() ?>admin/add_guru" method="post">
             <div class="modal-body">
               <div class="input-group">
                 <div class="input-group-prepend">

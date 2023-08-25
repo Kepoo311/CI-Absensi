@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form action="<?= site_url('admin/process_upload'); ?>" method="post" enctype="multipart/form-data">
+          <form action="<?= site_url('admin/import_kelas'); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="uploadfile">File input</label>
               <div class="input-group">
@@ -98,7 +98,7 @@
       <!-- /.row -->
     </div>
     <div class="modal fade" id="modal-add">
-      <div class="modal-dialog modal-edit">
+      <div class="modal-dialog modal-add">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Tambah Data</h4>
@@ -106,7 +106,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="<?php echo base_url() ?>admin/add_guru" method="post">
+          <form action="<?php echo site_url() ?>admin/add_kelas" method="post">
             <div class="modal-body">
               <div class="input-group">
                 <div class="input-group-prepend">

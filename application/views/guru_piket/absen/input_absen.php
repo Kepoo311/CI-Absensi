@@ -63,7 +63,7 @@
           Pergi ke <a href="<?php echo site_url('gurupiket/laporan_hari'); ?>">Laporan Hari ini</a> Jika ingin mengedit daftar absensi yang sudah di input.
         </div>
       </div>
-      <form action="<?php echo base_url() ?>admin/input_absen" method="post">
+      <form action="<?php echo site_url() ?>admin/input_absen" method="post">
         <div class="card card-default table-responsive" id="dataguru">
           <div class="card-header"> 
             <h3 class="card-title">Input Absensi</h3>

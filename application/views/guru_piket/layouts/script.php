@@ -47,7 +47,7 @@
       var selectedMonth = selectedDate.getMonth() + 1;
 
       $.ajax({
-        url: '<?php echo base_url(); ?>laporan/cetak_laporan',
+        url: '<?php echo site_url(); ?>laporan/cetak_laporan',
         type: 'post',
         data: {selectedMonth:selectedMonth},
         //dataType: 'json',
@@ -111,7 +111,7 @@
       var hari = new Date(date).getDay();
 
       $.ajax({
-        url: '<?php echo base_url(); ?>admin/show_jadwal',
+        url: '<?php echo site_url(); ?>gurupiket/show_jadwal',
         type: 'post',
         data: {kelas:kelas, date:date, hari:hari},
         dataType: 'json',

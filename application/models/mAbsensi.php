@@ -8,22 +8,22 @@ class mAbsensi extends CI_Model {
         $this->db->distinct();
         $this->db->select('kelas');
         $this->db->where('tanggal', date('2023-08-15'));
-        return $this->db->count_all_results('data_absensi');
+        return $this->db->count_all_results('tb_absensi');
     }
 
     public function jumlah_kelas()
     {
-        return $this->db->count_all_results('data_kelas');
+        return $this->db->count_all_results('tb_kelas');
     }
 
     public function jumlah_guru()
     {
-        return $this->db->count_all_results('data_guru');
+        return $this->db->count_all_results('tb_guru');
     }
 
     public function jumlah_jadwal()
     {
-        return $this->db->count_all_results('jadwal_pelajaran');
+        return $this->db->count_all_results('tb_jadwal');
     }
 
     public function jumlah_users($role)
@@ -35,7 +35,7 @@ class mAbsensi extends CI_Model {
 	function GetDataKelas($kelas)
 	{
 		$this->db->like('nama_kelas', $kelas, 'after');
-        $query = $this->db->get('data_kelas');
+        $query = $this->db->get('tb_kelas');
         return $query->result();
 	}
 
@@ -43,12 +43,12 @@ class mAbsensi extends CI_Model {
     {
         $this->db->where('kelas', $kelas);
         $this->db->where('tanggal', $tanggal);
-        $query = $this->db->get('data_absensi');
+        $query = $this->db->get('tb_absensi');
         return $query->num_rows() > 0;
     }
 
     public function insert_absensi($data)
     {
-        return $this->db->insert_batch('data_absensi', $data);
+        return $this->db->insert_batch('tb_absensi', $data);
     }
 }

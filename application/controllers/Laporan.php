@@ -18,7 +18,7 @@ class Laporan extends CI_Controller {
     {
       $bulan = $_POST['selectedMonth'];
 
-      $guru = $this->db->get('data_guru')->result();
+      $guru = $this->db->get('tb_guru')->result();
 
       $data = '';
       $data .= '<thead>
@@ -112,8 +112,6 @@ class Laporan extends CI_Controller {
           $rowNumber = 6;
           foreach ($absensi_data as $absensi) 
           {
-              
-
               $absenText = '-';
               if ($absensi->hadir > 0) 
               {
@@ -170,6 +168,18 @@ class Laporan extends CI_Controller {
           $sheet->setCellValue('AK' . $rowNumber, $absensi->total_izin);
           $sheet->setCellValue('AL' . $rowNumber, $absensi->total_alpa);
 
+          $total_kehadiran = $absensi->total_hadir + $absensi->total_sakit + $absensi->total_izin + $absensi->total_alpa;
+
+          // Hitung persentasi kehadiran
+          if ($total_kehadiran > 0) {
+              $persentasi_kehadiran = ($absensi->total_hadir / $total_kehadiran) * 100;
+              $sheet->setCellValue('AN' . $rowNumber, $persentasi_kehadiran . '%');
+          } else {
+              $persentasi_kehadiran = '-';
+          }
+
+          $sheet->setCellValue('AM' . $rowNumber, $total_kehadiran);
+          
           $rowNumber++;
       }
 
