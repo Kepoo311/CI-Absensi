@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Agu 2023 pada 10.28
--- Versi server: 10.4.11-MariaDB
--- Versi PHP: 7.4.1
+-- Waktu pembuatan: 27 Agu 2023 pada 15.21
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -66,7 +65,41 @@ INSERT INTO `tb_absensi` (`id`, `kelas`, `tanggal`, `nama_guru`, `status_absen`,
 (49, 'XI AKL 1', '2023-08-15', 'Ria Handayani, S.E', 'Sakit', ''),
 (50, 'XI AKL 1', '2023-08-15', 'Sri Mulaydina  S.Pd', 'Hadir', ''),
 (51, 'X AKL 4', '2023-08-15', 'Ngatimin, S.E', 'Hadir', ''),
-(52, 'X AKL 4', '2023-08-15', 'Kesi Rahayu, S.Pd', 'Ijin', 'keluar kota');
+(52, 'X AKL 4', '2023-08-15', 'Kesi Rahayu, S.Pd', 'Ijin', 'keluar kota'),
+(53, 'XI AKL 1', '2023-08-14', 'Ria Handayani, S.E', 'Hadir', ''),
+(54, 'XI AKL 1', '2023-08-14', 'Sri Mulaydina  S.Pd', 'Hadir', ''),
+(55, 'XII PPLG', '2023-07-03', 'Dian Sri Purwanti, S.Kom', 'Hadir', ''),
+(56, 'XII PPLG', '2023-07-10', 'Dian Sri Purwanti, S.Kom', 'Sakit', ''),
+(57, 'XII PPLG', '2023-07-17', 'Dian Sri Purwanti, S.Kom', 'Hadir', ''),
+(58, 'XII PPLG', '2023-07-24', 'Dian Sri Purwanti, S.Kom', 'Hadir', ''),
+(59, 'XII AKL 1', '2023-07-24', 'Maryanah, S.Pd.', 'Hadir', ''),
+(60, 'XII AKL 1', '2023-07-24', 'Dzuli Kamala, M.Pd.I', 'Alpa', ''),
+(61, 'XII AKL 1', '2023-07-24', 'Hj. Zahria Hadiyati, S.Pd', 'Hadir', ''),
+(62, 'XII AKL 1', '2023-07-24', 'Diah Indri Safitri, S.Pd', 'Hadir', ''),
+(63, 'XII AKL 2', '2023-07-24', 'Sumiyati, S.Pd', 'Hadir', ''),
+(64, 'XII AKL 2', '2023-07-24', 'Yunita Sari, S.Pd', 'Ijin', ''),
+(65, 'XII AKL 2', '2023-07-24', 'Dzuli Kamala, M.Pd.I', 'Hadir', ''),
+(66, 'XI AKL 1', '2023-07-24', 'Ria Handayani, S.E', 'Alpa', ''),
+(67, 'XI AKL 1', '2023-07-24', 'Sri Mulaydina  S.Pd', 'Hadir', ''),
+(68, 'XI AKL 2', '2023-07-24', 'Yuli Mulyawati, S.Pd', 'Alpa', ''),
+(69, 'XI AKL 2', '2023-07-24', 'Elya Yulina S.Pd', 'Hadir', ''),
+(70, 'XI AKL 2', '2023-07-24', 'Anita Tri Setiani, S.Pd', 'Hadir', ''),
+(71, 'XI AKL 2', '2023-07-24', 'Martono, S.E', 'Hadir', ''),
+(72, 'X AKL 1', '2023-07-24', 'Putri Ayu Eka Ramadhani, S.Pd, M,Pd', 'Hadir', ''),
+(73, 'X AKL 1', '2023-07-24', 'Wita Asiyah, S.Pd', 'Hadir', ''),
+(74, 'X AKL 1', '2023-07-24', 'Gina Anggriana, S.Pd', 'Hadir', ''),
+(75, 'X AKL 2', '2023-07-24', 'Indri Julianti Afnil, S.Pd', 'Hadir', ''),
+(76, 'X AKL 2', '2023-07-24', 'Heni Ayu Pertiwi, S.Si', 'Hadir', ''),
+(77, 'X AKL 2', '2023-07-24', 'Putri Alifa S.Pd.', 'Hadir', ''),
+(78, 'X AKL 2', '2023-07-24', 'Reni Usman, S.Pd', 'Hadir', ''),
+(79, 'X AKL 3', '2023-07-24', 'Gina Anggriana, S.Pd', 'Alpa', ''),
+(80, 'X AKL 3', '2023-07-24', 'Elya Yulina S.Pd\r\nElya Yulina S.Pd\r\n', 'Ijin', ''),
+(81, 'X AKL 3', '2023-07-24', 'Nani Kurniaty, S.Pd', 'Hadir', ''),
+(82, 'X AKL 4', '2023-07-24', 'Ngatimin, S.E', 'Hadir', ''),
+(83, 'X AKL 4', '2023-07-24', 'Kesi Rahayu, S.Pd', 'Alpa', ''),
+(84, 'X AKL 5', '2023-07-24', 'Yuli Seti Purwaningsih, S.Pd', 'Alpa', ''),
+(85, 'X AKL 5', '2023-07-24', 'Nur Fadillah, S.Pd.I', 'Hadir', ''),
+(86, 'X AKL 5', '2023-07-24', 'Dina Sundari, S.Pd', 'Hadir', '');
 
 -- --------------------------------------------------------
 
@@ -1439,7 +1472,6 @@ INSERT INTO `tb_kelas` (`id_kelas`, `nama_kelas`) VALUES
 
 CREATE TABLE `tb_users` (
   `id` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL DEFAULT 'User',
   `password` varchar(225) NOT NULL,
   `session` int(100) NOT NULL,
@@ -1450,9 +1482,9 @@ CREATE TABLE `tb_users` (
 -- Dumping data untuk tabel `tb_users`
 --
 
-INSERT INTO `tb_users` (`id`, `email`, `username`, `password`, `session`, `role`) VALUES
-(1, 'admin@adminabsen.com', 'User', '$2y$10$AtEAlsYB81ztb0xo1wZuVuveym6/c5AtzeeNRW9Ir4/y9MRv.hFWi', 0, 'Admin'),
-(3, 'absen@guruabsen.com', 'Guru Absen', '$2y$10$evx0gyis2s8dQd7oRQQemOT/VElxmBmP0Iv1NYQHSlx64ONqQIy9W', 0, 'Guru Piket');
+INSERT INTO `tb_users` (`id`, `username`, `password`, `session`, `role`) VALUES
+(1, 'smkn4bdl', '$2y$10$AtEAlsYB81ztb0xo1wZuVuveym6/c5AtzeeNRW9Ir4/y9MRv.hFWi', 0, 'Admin'),
+(7, 'gurupiket', '$2y$10$4WvhjFuoz3kwxjxXyBdFP.WNReXy.JNDsTYkvKPTCD3M0dcRKqsZa', 0, 'Guru Piket');
 
 --
 -- Indexes for dumped tables
@@ -1505,13 +1537,13 @@ ALTER TABLE `tb_users`
 -- AUTO_INCREMENT untuk tabel `tb_absensi`
 --
 ALTER TABLE `tb_absensi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_guru`
 --
 ALTER TABLE `tb_guru`
-  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_jadwal`
@@ -1523,13 +1555,13 @@ ALTER TABLE `tb_jadwal`
 -- AUTO_INCREMENT untuk tabel `tb_kelas`
 --
 ALTER TABLE `tb_kelas`
-  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
