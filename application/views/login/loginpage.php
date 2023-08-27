@@ -35,13 +35,13 @@
       <br>
       <form action="<?php echo base_url(); ?>" method="post">
         <div class="input-group mb-3">
-          <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="<?php echo set_value('email') ?>">
+          <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?php echo set_value('username') ?>">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
-        </div><p><?php echo form_error('email') ?></p>
+        </div><p><?php echo form_error('username') ?></p>
         <div class="input-group mb-3">
           <input type="password" name="password" id="password" class="form-control" placeholder="Password">
           <div class="input-group-append">

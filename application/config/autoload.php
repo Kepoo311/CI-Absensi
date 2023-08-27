@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -30,6 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
+$autoload['time_zone'] = date_default_timezone_set('Asia/Jakarta');
+
 /*
 | -------------------------------------------------------------------
 |  Auto-load Packages
@@ -39,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
 */
+
 $autoload['packages'] = array();
 
 /*

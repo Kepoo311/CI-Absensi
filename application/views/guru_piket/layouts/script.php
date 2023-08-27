@@ -40,32 +40,6 @@
 
 <script>
   $(document).ready(function(){
-
-    $('#dateb').change(function(){
-      var dateb = $('#dateb').val();
-      var selectedDate = new Date($('#dateb').val() + "-01");
-      var selectedMonth = selectedDate.getMonth() + 1;
-
-      $.ajax({
-        url: '<?php echo site_url(); ?>laporan/cetak_laporan',
-        type: 'post',
-        data: {selectedMonth:selectedMonth},
-        //dataType: 'json',
-        success: function(data)
-        {
-          $('#laporanBulan').html(data);
-        },
-        error:function()
-        {
-          alert('error ' + selectedMonth + '');
-        }
-      })
-    });
-  });
-</script>
-
-<script>
-  $(document).ready(function(){
     $(function () {
       $("#tabelGuru").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": true,
@@ -76,7 +50,7 @@
             },
         }
       }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
-      $("#laporanBulan").DataTable({
+      $("#tbllaporanBulan").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": true,
         "language": {
             "paginate": {
@@ -84,7 +58,7 @@
                 "previous": "<"
             },
         }
-      }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
+      });
     });
   });
 </script>
@@ -127,5 +101,6 @@
     });
   });
 </script>
+
 </body>
 </html>

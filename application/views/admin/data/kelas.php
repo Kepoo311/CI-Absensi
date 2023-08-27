@@ -67,8 +67,8 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive">
-          <table id="tabelGuru" class="table table-bordered">
-            <thead>
+          <table id="tabelGuru" class="table table-bordered custom-table">
+            <thead class="bg-info">
               <tr>
                 <th style="width: 30px;">ID</th>
                 <th style="width: 800px;">Kelas</th>
@@ -81,14 +81,42 @@
                   <td><?php echo $row->id_kelas; ?></td>
                   <td><?php echo $row->nama_kelas; ?></td>
                   <td>
-                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="">
+                    <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-edit<?php echo $row->id_kelas; ?>">
                       <i class="fa fa-edit"></i>
                     </a>
-                    <a href="#" class="btn btn-danger btn-sm btn-del">
+                    <a href="<?php echo site_url('admin/delete_kelas/' . $row->id_kelas); ?>" class="btn btn-danger btn-sm btn-del">
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>
               </tr>
+              <div class="modal fade" id="modal-edit<?php echo $row->id_kelas; ?>">
+                <div class="modal-dialog modal-edit">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Edit Data</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form action="<?php echo site_url() ?>admin/edit_kelas" method="post">
+                      <div class="modal-body">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                          </div>
+                          <input type="hidden" value="<?php echo $row->id_kelas; ?>" name="id">
+                          <input type="text" class="form-control" value="<?php echo $row->nama_kelas; ?>" name="nama" required>
+                        </div>
+                      </div>
+                      <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-info">Save changes</button>
+                      </div>
+                    </form>
+                  </div>
+                  <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+              </div>
               <?php } ?>
             </tbody>
           </table>

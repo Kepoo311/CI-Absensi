@@ -37,6 +37,22 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/script');
 	}
 
+	public function user()
+	{
+		if ($this->session->userdata('role') != 'Admin') {
+			redirect('','refresh');
+		}
+
+		$data['user'] = $this->minputdata->GetDataUsers();
+
+		$this->load->view('admin/layouts/meta');
+		$this->load->view('admin/layouts/navbar');
+		$this->load->view('admin/layouts/sidebar');
+		$this->load->view('admin/data/user', $data);
+		$this->load->view('admin/layouts/footer');
+		$this->load->view('admin/layouts/script');
+	}
+
 	public function guru()
 	{
 		if ($this->session->userdata('role') != 'Admin') {
@@ -91,14 +107,15 @@ class Admin extends CI_Controller {
 			redirect('','refresh');
 		}
 
-		$data['kelas'] = $this->mabsensi->GetDataKelas('XII ');
+		$tanggal = date('Y-m-d');
+		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsen('XII ', $tanggal);
 
-		$this->load->view('admin/layouts/meta');
-		$this->load->view('admin/layouts/navbar');
-		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/absen/input_absen', $data);
-		$this->load->view('admin/layouts/footer');
-		$this->load->view('admin/layouts/script');
+		$this->load->view('guru_piket/layouts/meta');
+		$this->load->view('guru_piket/layouts/navbar');
+		$this->load->view('guru_piket/layouts/sidebar');
+		$this->load->view('guru_piket/absen/input_absen', $data);
+		$this->load->view('guru_piket/layouts/footer');
+		$this->load->view('guru_piket/layouts/script');
 	}
 
 	public function absen_xi()
@@ -107,14 +124,15 @@ class Admin extends CI_Controller {
 			redirect('','refresh');
 		}
 
-		$data['kelas'] = $this->mabsensi->GetDataKelas('XI ');
+		$tanggal = date('Y-m-d');
+		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsen('XI ', $tanggal);
 
-		$this->load->view('admin/layouts/meta');
-		$this->load->view('admin/layouts/navbar');
-		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/absen/input_absen', $data);
-		$this->load->view('admin/layouts/footer');
-		$this->load->view('admin/layouts/script');
+		$this->load->view('guru_piket/layouts/meta');
+		$this->load->view('guru_piket/layouts/navbar');
+		$this->load->view('guru_piket/layouts/sidebar');
+		$this->load->view('guru_piket/absen/input_absen', $data);
+		$this->load->view('guru_piket/layouts/footer');
+		$this->load->view('guru_piket/layouts/script');
 	}
 
 	public function absen_x()
@@ -123,47 +141,50 @@ class Admin extends CI_Controller {
 			redirect('','refresh');
 		}
 
-		$data['kelas'] = $this->mabsensi->GetDataKelas('X ');
+		$tanggal = date('Y-m-d');
+		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsen('X ', $tanggal);
 
-		$this->load->view('admin/layouts/meta');
-		$this->load->view('admin/layouts/navbar');
-		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/absen/input_absen', $data);
-		$this->load->view('admin/layouts/footer');
-		$this->load->view('admin/layouts/script');
+		$this->load->view('guru_piket/layouts/meta');
+		$this->load->view('guru_piket/layouts/navbar');
+		$this->load->view('guru_piket/layouts/sidebar');
+		$this->load->view('guru_piket/absen/input_absen', $data);
+		$this->load->view('guru_piket/layouts/footer');
+		$this->load->view('guru_piket/layouts/script');
 	}
 
 	public function laporan_hari()
-	{
-		if ($this->session->userdata('role') != 'Admin') {
-			redirect('','refresh');
-		}
+    {
+      if ($this->session->userdata('role') != 'Admin') {
+        redirect('','refresh');
+      }
 
-		$kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen();
-        
-    	$data['kelas'] = $kelas_sudah_absen;
+      $data['sudah_absen'] = $this->mabsensi->jumlah_kelas() - $this->mabsensi->j_kelas_sudah_absen(TODAY_DATE);
 
-		$this->load->view('admin/layouts/meta');
-		$this->load->view('admin/layouts/navbar');
-		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/laporan/hari', $data);
-		$this->load->view('admin/layouts/footer');
-		$this->load->view('admin/layouts/script');
-	}
+      $list_kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen(TODAY_DATE);
 
-	public function laporan_bulan()
-	{
-		if ($this->session->userdata('role') != 'Admin') {
-			redirect('','refresh');
-		}
-		
-		$this->load->view('admin/layouts/meta');
-		$this->load->view('admin/layouts/navbar');
-		$this->load->view('admin/layouts/sidebar');
-		$this->load->view('admin/laporan/bulan');
-		$this->load->view('admin/layouts/footer');
-		$this->load->view('admin/layouts/script');
-	}
+      $data['kelas'] = $list_kelas_sudah_absen;
+
+      $this->load->view('admin/layouts/meta');
+      $this->load->view('admin/layouts/navbar');
+      $this->load->view('admin/layouts/sidebar');
+      $this->load->view('laporan/hari', $data);
+      $this->load->view('admin/layouts/footer');
+      $this->load->view('laporan/script');
+    }
+
+    public function laporan_bulan()
+    {
+      if ($this->session->userdata('role') != 'Admin') {
+        redirect('','refresh');
+      }
+
+      $this->load->view('admin/layouts/meta');
+      $this->load->view('admin/layouts/navbar');
+      $this->load->view('admin/layouts/sidebar');
+      $this->load->view('laporan/bulan');
+      $this->load->view('admin/layouts/footer');
+      $this->load->view('laporan/script');
+    }
 
 	public function edit_guru() 
 	{
@@ -180,6 +201,35 @@ class Admin extends CI_Controller {
 		redirect('admin/guru','refresh');
     }
 
+	public function add_user() 
+	{
+        if ($this->input->post()) {
+            $data = array(
+                'username' => $this->input->post('username'),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'role' => $this->input->post('role')
+            );
+
+            $this->minputdata->insert_user($data);
+            $this->session->set_flashdata('success', 'Tambah Guru berhasil');
+        }
+
+		redirect('admin/user','refresh');
+    }
+
+    public function delete_user($id) 
+    {
+        $deleted = $this->minputdata->delete_user($id);
+        
+        if ($deleted) {
+            $this->session->set_flashdata('success', 'Hapus User berhasil');
+        } else {
+            $this->session->set_flashdata('error', 'Hapus User Gagal');
+        }
+
+        redirect('admin/user','refresh');
+    }
+
 	public function add_guru() 
 	{
         $namaGuru = $this->input->post('nama');
@@ -194,6 +244,34 @@ class Admin extends CI_Controller {
 		redirect('admin/guru','refresh');
     }
 
+    public function delete_guru($id_guru) 
+    {
+        $deleted = $this->minputdata->delete_guru($id_guru);
+        
+        if ($deleted) {
+            $this->session->set_flashdata('success', 'Hapus Guru berhasil');
+        } else {
+            $this->session->set_flashdata('error', 'Hapus Guru Gagal');
+        }
+
+        redirect('admin/guru','refresh');
+    }
+
+    public function edit_kelas() 
+	{
+		$idKelas = $this->input->post('id');
+        $namaKelas = $this->input->post('nama');
+		
+		$insert = $this->minputdata->update_kelas($idKelas, $namaKelas);
+		if ($insert) {
+			$this->session->set_flashdata('success', 'Edit Nama Kelas berhasil');
+		} else {
+			$this->session->set_flashdata('error', 'Edit Nama Kelas Gagal');
+		}
+
+		redirect('admin/kelas','refresh');
+    }
+
 	public function add_kelas() 
 	{
         $nama = $this->input->post('nama');
@@ -206,6 +284,19 @@ class Admin extends CI_Controller {
 		}
 
 		redirect('admin/kelas','refresh');
+    }
+
+    public function delete_kelas($id_kelas) 
+    {
+        $deleted = $this->minputdata->delete_kelas($id_kelas);
+        
+        if ($deleted) {
+            $this->session->set_flashdata('success', 'Hapus Kelas berhasil');
+        } else {
+            $this->session->set_flashdata('error', 'Hapus Kelas Gagal');
+        }
+
+        redirect('admin/kelas','refresh');
     }
 
 	public function import_kelas() 
@@ -311,15 +402,14 @@ class Admin extends CI_Controller {
 		redirect('admin/guru','refresh');
 	}
 
-	
-
 	public function data_jadwal()
 	{
 		$kelas = $_POST['kelas'];
 	    $tg = $_POST['date'];
 	    $idhariini = $_POST['hari'];
 
-	    function tgl_indo($tanggal){
+	    function tgl_indo($tanggal)
+        {
 			$nama_hari = array(
 				'Sunday' => 'Minggu',
 				'Monday' => 'Senin',
@@ -345,7 +435,7 @@ class Admin extends CI_Controller {
 			'Desember'
 			);
 			$pecahkan = explode('-', $tanggal);
-			$hari = date('l');
+			$hari = date('l', strtotime($tanggal));
 		
 			return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
 	    }
@@ -371,8 +461,8 @@ class Admin extends CI_Controller {
                   </tr>
                 </table>
                 <br>
-                <table class="table">
-                  <thead>
+                <table class="table table-bordered custom-table">
+                  <thead class="bg-info">
                     <tr>
                       <th>No</th>
                       <th>Nama</th>
@@ -397,51 +487,4 @@ class Admin extends CI_Controller {
         	
 		echo json_encode($data);
 	}
-
-	function input_absen()
-	{
-		$kelas = $this->input->post('kelas');
-		$tanggal = $this->input->post('date');
-
-		if (!$this->mabsensi->absensi_exists($kelas, $tanggal)) 
-		{
-      		// Lakukan input absensi
-      		$nama_guru = $this->input->post('nama_guru[]');
-			$absen = $this->input->post('absen[]');
-			$ket_lain = $this->input->post('ket_lain[]');
-
-			$data = array();
-			$index = 0;
-			foreach ($absen as $data_absen) {
-
-				array_push($data, array(
-					'kelas' => $this->input->post('kelas'),
-					'tanggal' => $tanggal,
-					'nama_guru' => $nama_guru[$index],
-					'status_absen' => $absen[$index],
-					'keterangan' => $ket_lain[$index],
-					
-					
-					
-				));
-
-				$index++;
-				
-			}
-            $insert = $this->mabsensi->insert_absensi($data);
-			if ($insert) {
-				$this->session->set_flashdata('success', 'Input data absen berhasil');
-				redirect('gurupiket/laporan_hari','refresh');
-			} else {
-				$this->session->set_flashdata('error', 'Input data absen kelas Gagal');
-				redirect('gurupiket/laporan_hari','refresh');
-			}
-            
-            
-        } else {
-            $this->session->set_flashdata('error', 'Kelas ini sudah di absen');
-			redirect('gurupiket/laporan_hari','refresh');
-        }
-	}
-
 }

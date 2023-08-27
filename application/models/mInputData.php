@@ -6,6 +6,12 @@ class mInputData extends CI_Model {
 	public function hashPassword($password) {
         return password_hash($password, PASSWORD_DEFAULT);
     }
+
+    function GetDataUsers()
+    {
+        $query = $this->db->get('tb_users');
+        return $query->result();
+    }
     
 	function GetDataGuru()
 	{
@@ -32,6 +38,20 @@ class mInputData extends CI_Model {
         return $this->db->update('tb_guru', $data);
     }
 
+    public function insert_user($data)
+    {
+        return $this->db->insert('tb_users', $data);
+    }
+
+    public function delete_user($id) 
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_users');
+        
+        return $this->db->affected_rows() > 0;
+    }
+
+
 	public function add_guru($namaGuru) 
 	{
 		$guru_data = array(
@@ -40,11 +60,34 @@ class mInputData extends CI_Model {
 		return $this->db->insert('tb_guru', $guru_data);
     }
 
+    public function delete_guru($id_guru) 
+    {
+        $this->db->where('id_guru', $id_guru);
+        $this->db->delete('tb_guru');
+        
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function update_kelas($idkelas, $namakelas) 
+	{
+        $data = array('nama_kelas' => $namakelas);
+        $this->db->where('id_kelas', $idkelas);
+        return $this->db->update('tb_kelas', $data);
+    }
+
 	public function add_kelas($namaKelas) 
 	{
 		$data = array(
 			'nama_kelas' => $namaKelas
 		);
 		return $this->db->insert('tb_kelas', $data);
+    }
+
+    public function delete_kelas($id_kelas) 
+    {
+        $this->db->where('id_kelas', $id_kelas);
+        $this->db->delete('tb_kelas');
+        
+        return $this->db->affected_rows() > 0;
     }
 }

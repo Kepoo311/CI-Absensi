@@ -3,11 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class mLaporan extends CI_Model {
 
-   public function kelas_sudah_absen()
+   public function kelas_sudah_absen($tanggal)
    {
       $this->db->distinct();
       $this->db->select('kelas');
-      $this->db->where('tanggal', date('2023-08-15'));
+      $this->db->where('tanggal', $tanggal);
       $this->db->group_by('kelas');
       $this->db->order_by('kelas', 'ASC');
       return $this->db->get('tb_absensi')->result();
@@ -18,14 +18,14 @@ class mLaporan extends CI_Model {
      return $this->db->get('tb_guru')->result();
    }
 
-   public function absensi_hari_ini($kelas)
+   public function absensi_harian($kelas, $tanggal)
    {
      $this->db->where('kelas', $kelas);
-     $this->db->where('tanggal', date('2023-08-15'));
+     $this->db->where('tanggal', $tanggal);
      return $this->db->get('tb_absensi')->result();
    }
 
-   public function getAbsensiDataByDate($tanggal) {
+   public function getAbsensiDataByDate($tanggal, $bulan) {
 
      $query = "SELECT dg.nama_guru,
          SUM(CASE WHEN da.status_absen = 'Hadir' THEN 1 ELSE 0 END) AS hadir,
@@ -33,7 +33,7 @@ class mLaporan extends CI_Model {
          SUM(CASE WHEN da.status_absen = 'Izin' THEN 1 ELSE 0 END) AS izin,
          SUM(CASE WHEN da.status_absen = 'Alpa' THEN 1 ELSE 0 END) AS alpa
      FROM tb_guru dg 
-     LEFT JOIN tb_absensi da ON dg.nama_guru = da.nama_guru AND DAY(da.tanggal) = '$tanggal' 
+     LEFT JOIN tb_absensi da ON dg.nama_guru = da.nama_guru AND DAY(da.tanggal) = '$tanggal' AND MONTH(da.tanggal) = '$bulan'
      GROUP BY dg.id_guru";
 
      return $this->db->query($query)->result();

@@ -68,7 +68,13 @@
               
               ?>
               <span class="info-box-text"><?= tgl_indo(date('Y-m-d')) ?></span>
-              <span class="info-box-number"><?php echo date('H:i'); ?></span>
+              <span class="info-box-number">
+
+              <?php
+                echo date('H:i'); 
+              ?>
+                
+              </span>
             </div>
             <!-- /.info-box-content -->
           </div>

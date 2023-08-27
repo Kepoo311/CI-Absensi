@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body">
-          <form action="<?= site_url('admin/process_upload'); ?>" method="post" enctype="multipart/form-data">
+          <form action="<?= site_url('admin/import_guru'); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="uploadfile">File input</label>
               <div class="input-group">
@@ -50,7 +50,7 @@
         </div>
         <div class="card-footer">
           <?php
-            $filename = 'Guru.xlsx'; // Nama file yang ingin diunduh
+            $filename = 'Guru.xlsx';
             $download_url = site_url('admin/downloadFile/' . $filename);
           ?>
           Download template file excel <a href="<?= $download_url ?>">Disini</a>.
@@ -72,8 +72,8 @@
         <!-- /.card-header -->
         <div class="card-body table-responsive">
           <div>
-          <table id="tabelGuru" class="table table-bordered">
-            <thead>
+          <table id="tabelGuru" class="table table-bordered custom-table">
+            <thead class="bg-info">
               <tr>
                 <th>ID</th>
                 <th>Nama</th>
@@ -89,7 +89,7 @@
                     <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal-edit<?php echo $row->id_guru; ?>">
                       <i class="fa fa-edit"></i>
                     </a>
-                    <a href="#" class="btn btn-danger btn-sm btn-del">
+                    <a href="<?php echo site_url('admin/delete_guru/' . $row->id_guru); ?>" class="btn btn-danger btn-sm btn-del">
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>

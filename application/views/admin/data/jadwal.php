@@ -72,10 +72,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <div class="input-group date" id="" data-target-input="nearest">
-                    <input id="date" type="text" class="form-control datetimepicker-input"  value="<?php  echo date('2023-08-15') ?>">
-                    <div class="input-group-append">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
+                    <input id="date" type="date" class="form-control datetimepicker-input"  value="<?php  echo date('Y-m-d') ?>">
                 </div>
               </div>
             </div>
@@ -97,11 +94,6 @@
         <div class="card card-default table-responsive" id="dataguru">
           <div class="card-header"> 
             <h3 class="card-title">Input Absensi</h3>
-            <div class="card-tools">
-              <a href="#" class="btn btn-sm btn-tool">
-                <i class="fas fa-upload"></i>
-              </a>
-            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">

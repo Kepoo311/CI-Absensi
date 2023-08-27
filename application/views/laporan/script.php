@@ -8,8 +8,6 @@
 <script src="<?= base_url()?>assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- Select2 -->
 <script src="<?= base_url()?>assets/plugins/select2/js/select2.full.min.js"></script>
-<!-- Toastr -->
-<script src="<?= base_url()?>assets/plugins/toastr/toastr.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?= base_url()?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -23,35 +21,35 @@
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Toastr -->
+<script src="<?= base_url()?>assets/plugins/toastr/toastr.min.js"></script>
 
 <script>
-	const flash_success = $('.flash_success').data('flash_success');
-	if (flash_success) {
-		toastr.success(flash_success)
-	}
+    const flash_success = $('.flash_success').data('flash_success');
+    if (flash_success) {
+        toastr.success(flash_success)
+    }
 </script>
 
 <script>
-	const flash_error = $('.flash_error').data('flash_error');
-	if (flash_error) {
-		toastr.error(flash_error)
-	}
+    const flash_error = $('.flash_error').data('flash_error');
+    if (flash_error) {
+        toastr.error(flash_error)
+    }
 </script>
 
 <script>
   $(document).ready(function(){
-    $('#uploadfile').change(function(){
-      var uploadButton = document.getElementById('uploadbutton');
-      
-      if (this.files.length > 0) 
-      {
-        uploadButton.disabled = false;
-          
-      } 
-      else 
-      {
-        uploadButton.disabled = true;
-      }
+    $(function () {
+      $("#tbllaporanBulan").DataTable({
+        "responsive": false, "lengthChange": false, "autoWidth": true,
+        "language": {
+            "paginate": {
+                "next": ">",
+                "previous": "<"
+            },
+        }
+      });
     });
   });
 </script>
@@ -64,16 +62,8 @@
       var selectedDate = new Date($('#dateb').val() + "-01");
       var selectedMonth = selectedDate.getMonth() + 1;
 
-      var exportButton = document.getElementById('exportButton');
-      
-      if (this.files.length > 0) 
-      {
-        exportButton.disabled = false;
-      } 
-      else 
-      {
-        exportButton.disabled = true;
-      }
+      document.getElementById('hiddenMonth').value = selectedMonth;
+      document.getElementById('exportButton').disabled = false;
 
       $.ajax({
         url: '<?php echo site_url(); ?>laporan/cetak_laporan',
@@ -83,7 +73,7 @@
         success: function(data)
         {
           $('#laporanBulan').html(data);
-          $("#tbllaporanBulan").DataTable({
+          $("#tbllapBulan").DataTable({
             "responsive": false, "lengthChange": false, "autoWidth": true,
             "language": {
                 "paginate": {
@@ -104,66 +94,37 @@
 
 <script>
   $(document).ready(function(){
-    $(function () {
-      $("#tabelGuru").DataTable({
-        "responsive": false, "lengthChange": false, "autoWidth": true,
-        "language": {
-            "paginate": {
-                "next": ">",
-                "previous": "<"
-            },
-        }
-      }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
-      $("#tbllapBulan").DataTable({
-        "responsive": false, "lengthChange": false, "autoWidth": true,
-        "language": {
-            "paginate": {
-                "next": ">",
-                "previous": "<"
-            },
-        }
-      }).buttons().container().appendTo('#tabelguru_wrapper .col-md-6:eq(0)');
-    });
-  });
-</script>
+    $('#lapHari').change(function(){
 
-<script>
-    $(function () {
-      $('.select2').select2({
-        theme: 'bootstrap4'
-      })
-  })
-</script>
-
-<script>
-  $(function () {
-    bsCustomFileInput.init();
-  });
-</script>
-
-<script>
-  $(document).ready(function(){
-    $('#kelas').change(function(){
-      var kelas = $(this).val();
-      var date = $('#date').val()
-      var hari = new Date(date).getDay();
+      var date = $(this).val();
 
       $.ajax({
-        url: '<?php echo site_url(); ?>admin/data_jadwal',
+        url: '<?php echo site_url(); ?>laporan/jumlah_kelas_sudah_absen/' + date,
+        type: 'GET',
+        data: { date: date },
+        success: function(result) {
+          var infoLaporan = parseInt(result) + " Kelas Belum Absen";
+          $('#infoLaporan').val(infoLaporan);
+        }
+      });
+
+      $.ajax({
+        url: '<?php echo site_url(); ?>laporan/laporanHari',
         type: 'post',
-        data: {kelas:kelas, date:date, hari:hari},
+        data: {date:date},
         dataType: 'json',
         success: function(data)
         {
-          $('#dataguru').html(data);
+          $('#laporanHari').html(data);
         },
         error:function()
         {
-          alert(''+ hari +' '+ kelas);
+          alert(''+ date);
         }
       })
     });
   });
 </script>
+
 </body>
 </html>

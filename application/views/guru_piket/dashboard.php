@@ -61,13 +61,13 @@
                   'Desember'
                 );
                 $pecahkan = explode('-', $tanggal);
-                $hari = date('l');
+                $hari = date('l', strtotime(TODAY_DATE));
                
                 return $nama_hari[$hari] . ', ' . $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . '';
               }
               
               ?>
-              <span class="info-box-text"><?= tgl_indo(date('Y-m-d')) ?></span>
+              <span class="info-box-text"><?= tgl_indo(TODAY_DATE) ?></span>
               <span class="info-box-number"><?php echo date('H:i'); ?></span>
             </div>
             <!-- /.info-box-content -->
@@ -82,7 +82,7 @@
             <div class="inner">
               <h3><?= $guru ?></h3>
 
-              <p>Data Guru</p>
+              <p>Jumlah Guru</p>
             </div>
             <div class="icon">
               <i class="fas fa-users"></i>

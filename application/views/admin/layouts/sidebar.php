@@ -41,7 +41,7 @@ $segmen3 = $this->uri->segment(3);
           
           <li class="nav-header">Data</li>
           
-          <li class="nav-item <?php if ($segmen2 == 'guru' || $segmen2 == 'kelas' || $segmen2 == 'jadwal') {echo 'menu-open';} ?>">
+          <li class="nav-item <?php if ($segmen2 == 'guru' || $segmen2 == 'kelas' || $segmen2 == 'jadwal' || $segmen2 == 'user') {echo 'menu-open';} ?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -50,6 +50,12 @@ $segmen3 = $this->uri->segment(3);
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo site_url(); ?>admin/user" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'user') {echo 'active';} ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Data Akun</p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a href="<?php echo site_url(); ?>admin/guru" class="nav-link <?php if ($segmen1 == 'admin' && $segmen2 == 'guru') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
@@ -101,7 +107,6 @@ $segmen3 = $this->uri->segment(3);
     </div>
     <div class="sidebar-custom">
       <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
-      <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
     </div>
     <!-- /.sidebar -->
   </aside>

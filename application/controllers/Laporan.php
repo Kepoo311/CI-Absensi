@@ -11,17 +11,92 @@ class Laporan extends CI_Controller {
     {
       parent::__construct();
       $this->load->model('mlaporan');
-
+      $this->load->model('mabsensi');
     }
     
+    public function lihat_bukti($kelas, $tanggal) 
+    {
+      $data['gambar'] = $kelas . '-' . $tanggal;
+      $this->load->view('laporan/lihat_bukti', $data);
+    }
+
+    public function jumlah_kelas_sudah_absen($tanggal)
+    {
+      $date = $this->input->get('date');
+
+      $result = $this->mabsensi->jumlah_kelas() - $this->mabsensi->j_kelas_sudah_absen($date);
+      
+      echo $result;
+    }
+
+    public function laporanHari()
+    {
+      $tanggal = $_POST['date'];
+      $data = '';
+      $kelas = $this->mlaporan->kelas_sudah_absen($tanggal);
+      foreach ($kelas as $row) 
+      {
+            $data .='<div class="card card-default">
+                  <div class="container-fluid">
+                    <div style="text-align:center" class="card-header">
+                      <h3 class="card-title">';
+            $data .= $row->kelas;
+            
+            $data .='</h3>
+                    <div class="card-tools">
+                      <a href="' . site_url('laporan/lihat_bukti/' . str_replace(' ', '-', $row->kelas) . '/' . $tanggal) . '" class="btn btn-tool">
+                          <i class="fas fa-file-image"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="table-responsive">
+                    <table border="all" style="border-collapse: collapse;" class="table table-hover table-bordered custom-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 10px;">No</th>
+                          <th style="width: 500px;">Nama</th>
+                          <th style="width: 150px;">Absensi</th>
+                          <th style="width: 250px;">Keterangan Lain</th>
+                        </tr>
+                      </thead>
+                      <tbody>';
+            $no = 1;
+            $absensi_kelas = $this->mlaporan->absensi_harian($row->kelas, $tanggal);
+            foreach ($absensi_kelas as $laporan) 
+            {
+                  $data .= '<tr><td>';
+                  $data .= $no++;
+                  $data .= '</td><td>';
+                  $data .= $laporan->nama_guru;
+                  $data .= '</td><td>';
+                  $data .= $laporan->status_absen;
+                  $data .= '</td><td>';
+                  $data .= $laporan->keterangan;
+                  $data .= '</td></tr>';
+              }
+              $data .= '</tbody></table></div></div></div>';
+      }
+      echo json_encode($data);
+    }
+
     public function cetak_laporan()
     {
       $bulan = $_POST['selectedMonth'];
+      $namaBulan = date('F', mktime(0, 0, 0, $bulan, 1));
 
       $guru = $this->db->get('tb_guru')->result();
 
       $data = '';
-      $data .= '<thead>
+      $data .= '<div class="container-fluid">
+          <div style="text-align:center" class="card-header">
+            <h3 class="card-title">Data Kehadiran Guru - ';
+      $data .= $namaBulan;
+      $data .= '</h3>
+          </div>
+          <br>
+          <table id="tbllapBulan" style="border-collapse: collapse; width:100%" class="table table-hover table-bordered custom-td">';
+      $data .= '<thead class="bg-info">
                   <tr>
                     <th rowspan="2" style="vertical-align : middle; text-align: center; width: 10px;">No</th>
                     <th rowspan="2" style="vertical-align : middle; text-align: center;">Nama</th>
@@ -44,25 +119,34 @@ class Laporan extends CI_Controller {
         $data .= '<tr>';
         $data .= '<td style="vertical-align : middle; text-align: center;">'. $no++ .'</td>';
         $data .= '<td >'. $row->nama_guru .'</td>';
-        $data .= '<td style="vertical-align : middle; text-align: center;">5</td>';
         $absensi_data = $this->mlaporan->getAbsensiDataByMonth($bulan, $row->nama_guru);
 
         foreach ($absensi_data as $row) 
         {
+          $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
+          $data .= '<td style="vertical-align : middle; text-align: center;">' . $total_kehadiran .'</td>';
           $data .= '<td style="vertical-align : middle; text-align: center;">' . $row->total_hadir .'</td>';
           $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_sakit .'</td>';
           $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_izin .'</td>';
           $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_alpa .'</td>';
-          $data .= '<td style="vertical-align : middle; text-align: center;">50%</td>';
+          if ($total_kehadiran > 0) 
+          {
+              $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
+              $data .= '<td style="vertical-align : middle; text-align: center;">'. $persentasi_kehadiran .'%</td>';
+          } else {
+              $data .= '<td style="vertical-align : middle; text-align: center;">-</td>';
+          } 
+          
         }
 
         $data .= '</tr>';
       }
-      $data .= '</tbody>';
+      $data .= '</tbody></table><br></div>';
       echo $data;
     }
 
     public function exportToExcel() {
+      $bulan = $this->input->post('bulan');
       $spreadsheet = new Spreadsheet();
       $sheet = $spreadsheet->getActiveSheet();
 
@@ -92,7 +176,7 @@ class Laporan extends CI_Controller {
       ]);
 
       $sheet->mergeCells('D4:AH4');
-      $sheet->setCellValue('D4', 'Bulan : Agustus');
+      $sheet->setCellValue('D4', 'Bulan : ' . date('F', mktime(0, 0, 0, $bulan, 1)));
 
       $dates = range(1, 31);
       $col = 'D';
@@ -107,7 +191,7 @@ class Laporan extends CI_Controller {
           $alignment->setHorizontal(Alignment::HORIZONTAL_CENTER);
           $alignment->setVertical(Alignment::VERTICAL_CENTER);
 
-          $absensi_data = $this->mlaporan->getAbsensiDataByDate($date);
+          $absensi_data = $this->mlaporan->getAbsensiDataByDate($date, $bulan);
 
           $rowNumber = 6;
           foreach ($absensi_data as $absensi) 
@@ -150,12 +234,16 @@ class Laporan extends CI_Controller {
       $sheet->setCellValue('AK5', 'I');
       $sheet->setCellValue('AL5', 'A');
 
+      $sheet->getStyle('AI5:AL5')->applyFromArray([
+          'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
+      ]);
+
       $sheet->getColumnDimension('AI')->setWidth(4);
       $sheet->getColumnDimension('AJ')->setWidth(4);
       $sheet->getColumnDimension('AK')->setWidth(4);
       $sheet->getColumnDimension('AL')->setWidth(4);
 
-      $absensi_data = $this->mlaporan->getLaporanData(date('m'));
+      $absensi_data = $this->mlaporan->getLaporanData($bulan);
       $rowNumber = 6;
       $no = 1;
       foreach ($absensi_data as $absensi) 
@@ -167,6 +255,10 @@ class Laporan extends CI_Controller {
           $sheet->setCellValue('AJ' . $rowNumber, $absensi->total_sakit);
           $sheet->setCellValue('AK' . $rowNumber, $absensi->total_izin);
           $sheet->setCellValue('AL' . $rowNumber, $absensi->total_alpa);
+
+          $sheet->getStyle('AI' .$rowNumber. ':AL' .$rowNumber. '')->applyFromArray([
+              'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
+          ]);
 
           $total_kehadiran = $absensi->total_hadir + $absensi->total_sakit + $absensi->total_izin + $absensi->total_alpa;
 
@@ -180,6 +272,10 @@ class Laporan extends CI_Controller {
 
           $sheet->setCellValue('AM' . $rowNumber, $total_kehadiran);
           
+          $sheet->getStyle('AM' .$rowNumber. ':AN' .$rowNumber. '')->applyFromArray([
+              'alignment' => ['horizontal' => 'center', 'vertical' => 'center'],
+          ]);
+
           $rowNumber++;
       }
 
@@ -199,8 +295,11 @@ class Laporan extends CI_Controller {
 
       $sheet->setTitle("Laporan Data Absensi Guru");
 
+      $namaBulan = date('F', mktime(0, 0, 0, $bulan, 1));
+      $namaFile = "Rekap Absensi - $namaBulan.xlsx";
+
       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      header('Content-Disposition: attachment; filename="Rekap Absensi.xlsx"');
+      header('Content-Disposition: attachment; filename="' . $namaFile . '"');
 
       header('Cache-Control: max-age=0');
       $writer = new Xlsx($spreadsheet);

@@ -11,33 +11,10 @@ class Login extends CI_Controller {
 		$this->load->model('minputdata');
 	}
 
-	public function index2() {
-        $this->load->view('password_form');
-    }
-
-    public function hashPassword() {
-        $password = $this->input->post('password');
-        $hashedPassword = $this->minputdata->hashPassword($password);
-
-        echo "Original Password: $password<br>";
-        echo "Hashed Password: $hashedPassword";
-    }
-
-    public function verifyPassword() {
-        $inputPassword = $this->input->post('input_password');
-        $hashedPasswordFromDatabase = '$2y$10$KSBGt7...'; // Replace with actual hashed password from your database
-
-        if (password_verify($inputPassword, $hashedPasswordFromDatabase)) {
-            echo "Password Verified!";
-        } else {
-            echo "Password Not Verified!";
-        }
-    }
-
 	public function index()
 	{
 
-		$this->form_validation->set_rules('email', 'Email', 'trim|required');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 
 		if ($this->form_validation->run() == FALSE) {
@@ -49,10 +26,10 @@ class Login extends CI_Controller {
 
 	private function _login()
 	{
-		$email = $this->input->post('email');
+		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
-		$query = $this->db->get_where('tb_users',['email' => $email])->row_array();
+		$query = $this->db->get_where('tb_users',['username' => $username])->row_array();
 
 		if ($query) {
 			if (password_verify($password, $query['password'])) 
@@ -61,7 +38,6 @@ class Login extends CI_Controller {
 				[
 					'id' => $query['id'],
 					'nama' => $query['username'],
-					'email' => $email,
 					'session' => date('d-m-Y H:m:s'),
 					'role' => $query['role'],
 				];
@@ -83,7 +59,7 @@ class Login extends CI_Controller {
 				redirect('','refresh');
 			}
 		} else {
-			$this->session->set_flashdata('error', 'Email dan Password salah');
+			$this->session->set_flashdata('error', 'Username dan Password salah');
 			redirect('','refresh');
 		}
 	}

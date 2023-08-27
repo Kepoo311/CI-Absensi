@@ -3,11 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class mAbsensi extends CI_Model {
 
-    public function j_kelas_sudah_absen()
+    public function j_kelas_sudah_absen($tanggal)
     {
         $this->db->distinct();
         $this->db->select('kelas');
-        $this->db->where('tanggal', date('2023-08-15'));
+        $this->db->where('tanggal', $tanggal);
         return $this->db->count_all_results('tb_absensi');
     }
 
@@ -47,8 +47,33 @@ class mAbsensi extends CI_Model {
         return $query->num_rows() > 0;
     }
 
+    function GetKelasBelumAbsen($kelas, $tanggal)
+    {
+        $kelasData = $this->GetDataKelas($kelas); // Mengambil data kelas
+
+        $kelasWithoutAbsensi = array();
+        
+        foreach ($kelasData as $kelas) {
+            if (!$this->absensi_exists($kelas->nama_kelas, $tanggal)) {
+                $kelasWithoutAbsensi[] = $kelas;
+            }
+        }
+
+        return $kelasWithoutAbsensi;
+    }
+
     public function insert_absensi($data)
     {
         return $this->db->insert_batch('tb_absensi', $data);
+    }
+
+    public function GuruAlpa($tanggal)
+    {
+        $this->db->select('*');
+        $this->db->from('tb_absensi');
+        $this->db->where('tanggal', $tanggal);
+        $this->db->where('status_absen', 'Alpa');
+        $query = $this->db->get();
+        return $result = $query->result();
     }
 }
