@@ -72,8 +72,8 @@
         <!-- /.card-header -->
         <div class="card-body table-responsive">
           <div>
-          <table id="tabelGuru" class="table table-bordered custom-table">
-            <thead class="bg-info">
+          <table id="tabel" class="table table-bordered table-striped custom-table">
+            <thead>
               <tr>
                 <th>ID</th>
                 <th>Nama</th>

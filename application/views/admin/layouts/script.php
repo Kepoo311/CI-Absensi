@@ -105,7 +105,7 @@
 <script>
   $(document).ready(function(){
     $(function () {
-      $("#tabelGuru").DataTable({
+      $("#tabel").DataTable({
         "responsive": false, "lengthChange": false, "autoWidth": true,
         "language": {
             "paginate": {
@@ -165,5 +165,29 @@
     });
   });
 </script>
+
+<script>
+  $(document).ready(function(){
+    $('#hari').change(function(){
+      var hari = $(this).val();
+
+      $.ajax({
+        url: '<?php echo site_url(); ?>admin/data_jadwal_gurupiket',
+        type: 'post',
+        data: {hari:hari},
+        dataType: 'json',
+        success: function(data)
+        {
+          $('#datajadwalgp').html(data);
+        },
+        error:function()
+        {
+          alert(''+ hari);
+        }
+      })
+    });
+  });
+</script>
+
 </body>
 </html>

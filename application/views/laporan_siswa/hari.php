@@ -87,12 +87,12 @@
                 <tbody>
                   <?php $no = 1; ?>
                   <?php 
-                      $absensi_kelas = $this->mlaporan->absensi_harian($row->kelas, TODAY_DATE);
+                      $absensi_kelas = $this->mlaporan->absensi_harian_siswa($row->kelas, TODAY_DATE);
                       foreach ($absensi_kelas as $laporan): 
                   ?>
                   <tr>
                     <td ><?= $no++ ?></td>
-                    <td ><?= $laporan->nama_guru ?></td>
+                    <td ><?= $laporan->nama_siswa ?></td>
                     <td ><?= $laporan->status_absen ?></td>
                     <td ><?= $laporan->keterangan ?></td>
                   </tr>

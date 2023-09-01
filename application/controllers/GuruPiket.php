@@ -106,6 +106,26 @@ class Gurupiket extends CI_Controller {
         $this->load->view('laporan/script');
     }
 
+	public function laporan_hari_siswa()
+    {
+      if ($this->session->userdata('role') != 'Guru Piket') {
+        redirect('','refresh');
+      }
+
+      $data['sudah_absen'] = $this->mabsensi->jumlah_kelas() - $this->mabsensi->j_kelas_sudah_absen(TODAY_DATE);
+
+      $list_kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen(TODAY_DATE);
+
+      $data['kelas'] = $list_kelas_sudah_absen;
+
+      $this->load->view('guru_piket/layouts/meta');
+      $this->load->view('guru_piket/layouts/navbar');
+      $this->load->view('guru_piket/layouts/sidebar');
+      $this->load->view('laporan_siswa/hari', $data);
+      $this->load->view('guru_piket/layouts/footer');
+      $this->load->view('laporan/script');
+    }
+
     public function laporan_bulan()
     {
         if ($this->session->userdata('role') != 'Guru Piket') {
@@ -119,6 +139,69 @@ class Gurupiket extends CI_Controller {
         $this->load->view('guru_piket/layouts/footer');
         $this->load->view('laporan/script');
     }
+
+	public function laporan_bulan_siswa()
+    {
+        if ($this->session->userdata('role') != 'Guru Piket') {
+          redirect('','refresh');
+        }
+
+		$data['kelas'] = $this->minputdata->GetDataKelas();
+
+        $this->load->view('guru_piket/layouts/meta');
+        $this->load->view('guru_piket/layouts/navbar');
+        $this->load->view('guru_piket/layouts/sidebar');
+        $this->load->view('laporan_siswa/bulan', $data);
+        $this->load->view('guru_piket/layouts/footer');
+        $this->load->view('laporan/script');
+    }
+
+	public function show_siswa()
+	{
+		$kelas = $_POST['kelas'];
+	    $tg = $_POST['date'];
+	    $idhariini = $_POST['hari'];
+
+	    $query = $this->db->get_where('tb_siswa', array('nama_kelas' => $kelas));
+	    $data_siswa = $query->result();
+
+		$data = '';
+        $data .= '
+                  <thead class="bg-info">
+                    <tr>
+                      <th style="width: 10px;">No</th>
+                      <th style="width: 500px;">Nama</th>
+                      <th style="width: 150px;">Status Absensi</th>
+                      <th style="width: 250px;">Keterangan Lain</th>
+                    </tr>
+                  </thead>
+                  <tbody>';
+        $no = 1;
+        foreach ($data_siswa as $query) {
+          	$data .= '<input type="hidden" name="nama_siswa[]" value="'.$query->nama_siswa.'"> ';
+        	$data .= '<tr><td>';
+        	$data .= $no++;
+        	$data .= '</td>';
+        	$data .= '<td>';
+        	$data .= $query->nama_siswa;
+					$data .= '<td>';
+        	$data .= '<select name="absen_s[]" id="absen_s" class="form-control">
+						<option value="Hadir">Hadir</option>
+						<option value="Sakit">Sakit</option>
+						<option value="Ijin">Ijin</option>
+						<option value="Alpa">Tidak Hadir</option>
+					</select>';
+        	$data .= '</td>';
+        	$data .= '<td>';
+        	$data .= '<input type="text" name="ket_lain_s[]" id="ket_lain_s" class="form-control">';
+        	$data .= '</td></tr>';
+
+        }
+        $data .= '</tbody>';
+        	
+		echo json_encode($data);
+
+	}
 
   	public function show_jadwal()
 	{
@@ -179,13 +262,14 @@ class Gurupiket extends CI_Controller {
                   </tr>
                 </table>
                 <br>
+				<p>Absensi Guru</p>
                 <table class="table table-bordered custom-table">
                   <thead class="bg-info">
                     <tr>
-                      <th>No</th>
-                      <th>Nama</th>
-                      <th>Status Absensi</th>
-                      <th>Keterangan Lain</th>
+                      <th style="width: 10px;">No</th>
+                      <th style="width: 500px;">Nama</th>
+                      <th style="width: 150px;">Status Absensi</th>
+                      <th style="width: 250px;">Keterangan Lain</th>
                     </tr>
                   </thead>
                   <tbody>';
@@ -210,7 +294,7 @@ class Gurupiket extends CI_Controller {
         	$data .= '</td></tr>';
 
         }
-        $data .= '</tbody></table></div>';
+        $data .= '</tbody></table><p>Absensi Siswa</p><table class="table table-bordered custom-table" id="datasiswa"></table></div>';
         $data .= '</div></div></div></div>';
         $data .= '<button type="submit" class="btn btn-info">Input</button>';
         	
@@ -245,8 +329,14 @@ class Gurupiket extends CI_Controller {
 			$absen = $this->input->post('absen[]');
 			$ket_lain = $this->input->post('ket_lain[]');
 
+			$nama_siswa = $this->input->post('nama_siswa[]');
+			$absen_s = $this->input->post('absen_s[]');
+			$ket_lain_s = $this->input->post('ket_lain_s[]');
+
 			$data = array();
+			$data_s = array();
 			$index = 0;
+			$idx = 0;
 			foreach ($absen as $data_absen) {
 
 				array_push($data, array(
@@ -260,8 +350,23 @@ class Gurupiket extends CI_Controller {
 				$index++;
 				
 			}
+
+			foreach ($nama_siswa as $data_absen_s) {
+
+				array_push($data_s, array(
+					'kelas' => $this->input->post('kelas'),
+					'tanggal' => $tanggal,
+					'nama_siswa' => $nama_siswa[$idx],
+					'status_absen' => $absen_s[$idx],
+					'keterangan' => $ket_lain_s[$idx],
+				));
+
+				$idx++;
+				
+			}
       
             $insert = $this->mabsensi->insert_absensi($data);
+			$insert_siswa = $this->mabsensi->insert_absensi_siswa($data_s);
 			if ($insert) {
 				$this->session->set_flashdata('success', 'Input data absen berhasil');
 				redirect('gurupiket/laporan_hari','refresh');
@@ -269,8 +374,6 @@ class Gurupiket extends CI_Controller {
 				$this->session->set_flashdata('error', 'Input data absen kelas Gagal');
 				redirect('gurupiket/laporan_hari','refresh');
 			}
-            
-            
 	    } 
 	    else 
 	    {

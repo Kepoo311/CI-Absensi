@@ -21,51 +21,6 @@
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/toastr/toastr.min.css">
-  <style>
-    
-    .custom-table {
-      width: 100%;
-    }
-
-    .custom-table td, th {
-      white-space: nowrap;
-      vertical-align : middle; 
-      text-align: center;
-    }
-
-    .custom-td td {
-      white-space: nowrap;
-      vertical-align : middle; 
-      text-align: center;
-    }
-  
-    .custom-radio {
-      display: inline-block;
-      position: relative;
-      cursor: pointer;
-      margin-right: 12px;
-    }
-
-    .radio-input {
-      display: none;
-    }
-
-    .radio-text {
-      display: inline-block;
-      border: 1px solid #999;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      text-align: center;
-      line-height: 30px;
-      font-size: 15px;
-      transition: background-color 0.3s, border-color 0.3s;
-    }
-
-    .radio-input:checked + .radio-text {
-      background-color: #2196F3;
-      border-color: #2196F3;
-      color: #fff;
-    }    
-  </style>
+  <!-- Custom -->
+  <link rel="stylesheet" href="<?= base_url()?>assets/dist/css/custom.css">
 </head>

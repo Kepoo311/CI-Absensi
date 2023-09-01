@@ -19,6 +19,12 @@ class mInputData extends CI_Model {
         return $query->result();
 	}
 
+    function GetDataSiswa()
+	{
+		$query = $this->db->get('tb_siswa');
+        return $query->result();
+	}
+
 	function GetDataKelas()
 	{
 		$query = $this->db->get('tb_kelas');

@@ -55,6 +55,49 @@
 </script>
 
 <script>
+  $(document).ready(function () {
+    $(".open-modal").click(function () {
+      var kelas = $(this).data("kelas");
+      var tanggal = $(this).data("tanggal");
+      var gambarURL = "<?php echo base_url('assets/bukti'); ?>/" + kelas + "-" + tanggal + ".jpg";
+      $("#gambarPreview").attr("src", gambarURL);
+      $("#gambarModal").modal("show");
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+
+    $('#bulan').change(function(){
+      var bulan = $('#bulan').val();
+      var kelas = $('#kelas').val();
+      var selectedDate = new Date($('#bulan').val() + "-01");
+      var selectedMonth = selectedDate.getMonth() + 1;
+
+      document.getElementById('hiddenMonth').value = selectedMonth;
+      document.getElementById('hiddenClass').value = kelas;
+      document.getElementById('exportButton').disabled = false;
+
+      $.ajax({
+        url: '<?php echo site_url(); ?>laporan/cetak_laporan_siswa',
+        type: 'post',
+        data: {kelas:kelas, selectedMonth:selectedMonth},
+        //dataType: 'json',
+        success: function(data)
+        {
+          $('#laporanBulanSiswa').html(data);
+        },
+        error:function()
+        {
+          alert('error ' + selectedMonth + '');
+        }
+      })
+    });
+  });
+</script>
+
+<script>
   $(document).ready(function(){
 
     $('#dateb').change(function(){
@@ -124,6 +167,14 @@
       })
     });
   });
+</script>
+
+<script>
+    $(function () {
+      $('.select2').select2({
+        theme: 'bootstrap4'
+      })
+  })
 </script>
 
 </body>

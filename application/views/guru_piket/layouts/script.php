@@ -92,6 +92,21 @@
         success: function(data)
         {
           $('#dataguru').html(data);
+
+          $.ajax({
+            url: '<?php echo site_url(); ?>gurupiket/show_siswa',
+            type: 'post',
+            data: {kelas:kelas, date:date, hari:hari},
+            dataType: 'json',
+            success: function(data)
+            {
+              $('#datasiswa').html(data);
+            },
+            error:function()
+            {
+              alert(''+ hari +' '+ kelas);
+            }
+          })
         },
         error:function()
         {

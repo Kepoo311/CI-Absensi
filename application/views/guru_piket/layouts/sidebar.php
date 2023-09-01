@@ -39,7 +39,7 @@ $segmen3 = $this->uri->segment(3);
             </a>
           </li>
           
-          <li class="nav-header">Absensi Guru</li>
+          <li class="nav-header">Absensi</li>
           <li class="nav-item <?php if ($segmen2 == 'absen_xii' || $segmen2 == 'absen_xi' || $segmen2 == 'absen_x') {echo 'menu-open';} ?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -69,11 +69,10 @@ $segmen3 = $this->uri->segment(3);
               </li>
             </ul>
           </li>
-
-          <li class="nav-header">Laporan Absensi</li>
+          <li class="nav-header">Absensi Guru</li>
           <li class="nav-item <?php if ($segmen2 == 'laporan_hari' || $segmen2 == 'laporan_bulan') {echo 'menu-open';} ?>">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
+              <i class="nav-icon fas fa-table"></i>
               <p>
                 Cetak Laporan
                 <i class="right fas fa-angle-left"></i>
@@ -88,6 +87,30 @@ $segmen3 = $this->uri->segment(3);
               </li>
               <li class="nav-item">
                 <a href="<?php echo site_url('gurupiket/laporan_bulan'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'laporan_bulan') {echo 'active';} ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bulan</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-header">Absensi Siswa</li>
+          <li class="nav-item <?php if ($segmen2 == 'laporan_hari_siswa' || $segmen2 == 'laporan_bulan_siswa') {echo 'menu-open';} ?>">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-print"></i>
+              <p>
+                Cetak Laporan
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo site_url('gurupiket/laporan_hari_siswa'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'laporan_hari_siswa') {echo 'active';} ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Hari</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?php echo site_url('gurupiket/laporan_bulan_siswa'); ?>" class="nav-link <?php if ($segmen1 == 'gurupiket' && $segmen2 == 'laporan_bulan_siswa') {echo 'active';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bulan</p>
                 </a>

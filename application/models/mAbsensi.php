@@ -39,6 +39,12 @@ class mAbsensi extends CI_Model {
         return $query->result();
 	}
 
+    function GetDataHari()
+	{
+		$query = $this->db->get('tb_hari');
+        return $query->result();
+	}	
+
 	public function absensi_exists($kelas, $tanggal)
     {
         $this->db->where('kelas', $kelas);
@@ -65,6 +71,11 @@ class mAbsensi extends CI_Model {
     public function insert_absensi($data)
     {
         return $this->db->insert_batch('tb_absensi', $data);
+    }
+
+    public function insert_absensi_siswa($data)
+    {
+        return $this->db->insert_batch('tb_absensi_siswa', $data);
     }
 
     public function GuruAlpa($tanggal)

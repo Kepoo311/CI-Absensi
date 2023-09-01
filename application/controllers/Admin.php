@@ -69,6 +69,22 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/script');
 	}
 
+	public function siswa()
+	{
+		if ($this->session->userdata('role') != 'Admin') {
+			redirect('','refresh');
+		}
+
+		$data['siswa'] = $this->minputdata->GetDataSiswa();
+
+		$this->load->view('admin/layouts/meta');
+		$this->load->view('admin/layouts/navbar');
+		$this->load->view('admin/layouts/sidebar');
+		$this->load->view('admin/data/siswa', $data);
+		$this->load->view('admin/layouts/footer');
+		$this->load->view('admin/layouts/script');
+	}
+
 	public function kelas()
 	{
 		if ($this->session->userdata('role') != 'Admin') {
@@ -97,6 +113,22 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/layouts/navbar');
 		$this->load->view('admin/layouts/sidebar');
 		$this->load->view('admin/data/jadwal', $data);
+		$this->load->view('admin/layouts/footer');
+		$this->load->view('admin/layouts/script');
+	}
+
+	public function jadwal_gurupiket()
+	{
+		if ($this->session->userdata('role') != 'Admin') {
+			redirect('','refresh');
+		}
+
+		$data['hari'] = $this->mabsensi->GetDataHari();
+		
+		$this->load->view('admin/layouts/meta');
+		$this->load->view('admin/layouts/navbar');
+		$this->load->view('admin/layouts/sidebar');
+		$this->load->view('admin/data/jadwal_gurupiket', $data);
 		$this->load->view('admin/layouts/footer');
 		$this->load->view('admin/layouts/script');
 	}
@@ -172,6 +204,26 @@ class Admin extends CI_Controller {
       $this->load->view('laporan/script');
     }
 
+	public function laporan_hari_siswa()
+    {
+      if ($this->session->userdata('role') != 'Admin') {
+        redirect('','refresh');
+      }
+
+      $data['sudah_absen'] = $this->mabsensi->jumlah_kelas() - $this->mabsensi->j_kelas_sudah_absen(TODAY_DATE);
+
+      $list_kelas_sudah_absen = $this->mlaporan->kelas_sudah_absen(TODAY_DATE);
+
+      $data['kelas'] = $list_kelas_sudah_absen;
+
+      $this->load->view('admin/layouts/meta');
+      $this->load->view('admin/layouts/navbar');
+      $this->load->view('admin/layouts/sidebar');
+      $this->load->view('laporan_siswa/hari', $data);
+      $this->load->view('admin/layouts/footer');
+      $this->load->view('laporan/script');
+    }
+
     public function laporan_bulan()
     {
       if ($this->session->userdata('role') != 'Admin') {
@@ -185,6 +237,23 @@ class Admin extends CI_Controller {
       $this->load->view('admin/layouts/footer');
       $this->load->view('laporan/script');
     }
+
+	public function laporan_bulan_siswa()
+    {
+        if ($this->session->userdata('role') != 'Admin') {
+          redirect('','refresh');
+        }
+
+		$data['kelas'] = $this->minputdata->GetDataKelas();
+
+        $this->load->view('admin/layouts/meta');
+        $this->load->view('admin/layouts/navbar');
+        $this->load->view('admin/layouts/sidebar');
+        $this->load->view('laporan_siswa/bulan', $data);
+        $this->load->view('admin/layouts/footer');
+        $this->load->view('laporan/script');
+    }
+
 
 	public function edit_guru() 
 	{
@@ -357,6 +426,40 @@ class Admin extends CI_Controller {
         }
     }
 
+	public function import_siswa() 
+	{
+        //$this->load->library('PhpSpreadsheet');
+        
+        if ($_FILES['uploadfile']['name']) 
+		{
+            $inputFileName = $_FILES['uploadfile']['tmp_name'];
+
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            $headers = array_shift($rows);
+
+            foreach ($rows as $row) {
+                $data = array_combine($headers, $row);
+
+                $data_siswa = array(
+                    'nis' => $data['nis'],
+					'nisn' => $data['nisn'],
+					'nama_siswa' => $data['nama_siswa'],
+					'jk' => $data['jk'],
+					'id_kelas' => $data['id_kelas'],
+					'nama_kelas' => $data['nama_kelas']
+                );
+
+                $this->db->insert('tb_siswa', $data_siswa);
+            }
+
+			$this->session->set_flashdata('success', 'Import data Siswa berhasil');
+            redirect('admin/siswa','refresh');
+        }
+    }
+
 	public function import_jadwal() 
 	{
         //$this->load->library('PhpSpreadsheet');
@@ -389,6 +492,40 @@ class Admin extends CI_Controller {
 
 			$this->session->set_flashdata('success', 'Import data Jadwal berhasil');
             redirect('admin/jadwal','refresh');
+        }
+    }
+
+	public function import_jadwal_gurupiket() 
+	{
+        //$this->load->library('PhpSpreadsheet');
+        
+        if ($_FILES['uploadfile']['name']) 
+		{
+            $inputFileName = $_FILES['uploadfile']['tmp_name'];
+
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileName);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            $headers = array_shift($rows);
+
+            foreach ($rows as $row) {
+                $data = array_combine($headers, $row);
+
+                $data_jadwal = array(
+                    'id_hari' => $data['id_hari'],
+					'nama_hari' => $data['nama_hari'],
+					'id_guru' => $data['id_guru'],
+					'nama_guru' => $data['nama_guru'],
+					'area_piket' => $data['area_piket'],
+					'ket' => $data['ket']
+                );
+
+                $this->db->insert('tb_jadwal_gurupiket', $data_jadwal);
+            }
+
+			$this->session->set_flashdata('success', 'Import data Jadwal berhasil');
+            redirect('admin/jadwal_gurupiket','refresh');
         }
     }
 
@@ -481,6 +618,57 @@ class Admin extends CI_Controller {
         	$data .= $query->keterangan;
         	$data .= '</td></tr>';
 
+        }
+        $data .= '</tbody></table>';
+        $data .= '</div></div></div></div>';
+        	
+		echo json_encode($data);
+	}
+
+	public function data_jadwal_gurupiket()
+	{
+	    $hari = $_POST['hari'];
+
+	    $query = $this->db->get_where('tb_jadwal_gurupiket', array('nama_hari' => $hari));
+	    $jadwal_gurupiket = $query->result();
+
+		$data = '';
+		$data .= '<div class="card-header"> 
+		<h3 class="card-title">Jadwal Guru Piket</h3>
+	  </div><div class="card-body">
+	  <div class="row">
+		<div class="col-md-12">
+		  <table>
+			<tr>
+			  <td>Hari</td><td>:</td><td style="padding-left: 10px">';
+        $data .= $hari;
+        $data .= '</td>
+					</tr>
+				</table>
+                <br>
+                <table class="table table-bordered custom-table">
+                  <thead class="bg-info">
+                    <tr>
+                      <th>No</th>
+                      <th>Nama</th>
+					  <th>Area Piket</th>
+                      <th>Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody>';
+        $no = 1;
+        foreach ($jadwal_gurupiket as $query) {
+        	$data .= '<tr><td>';
+        	$data .= $no++;
+        	$data .= '</td>';
+        	$data .= '<td>';
+        	$data .= $query->nama_guru;
+        	$data .= '</td><td>';
+			$data .= $query->area_piket;
+        	$data .= '</td><td>';
+        	$data .= $query->ket;
+        	$data .= '</td></tr>';
+ 
         }
         $data .= '</tbody></table>';
         $data .= '</div></div></div></div>';
