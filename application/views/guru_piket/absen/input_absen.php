@@ -51,7 +51,10 @@
                 <select id="kelas" class="form-control select2" style="width: 100%;" required="">
                   <option value="">-- Pilih Kelas --</option>
                   <?php foreach ($kelas as $kelas): ?>
-                    <option value="<?php echo $kelas->nama_kelas ?>"><?php echo $kelas->nama_kelas ?></option>
+                    <?php $kelasArray = explode(',', $kelas['area_piket']); ?>
+                    <?php foreach ($kelasArray as $kelasItem): ?>
+                      <option value="<?php echo trim($kelasItem); ?>"><?php echo trim($kelasItem); ?></option>
+                    <?php endforeach; ?>
                   <?php endforeach ?>
                 </select>
               </div>

@@ -41,8 +41,8 @@ class Gurupiket extends CI_Controller {
 			redirect('','refresh');
 		}
 
-		$tanggal = TODAY_DATE;
-		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsen('XII ', $tanggal);
+		$name = $this->session->userdata('nama');
+		$data['kelas'] = $this->mabsensi->GetAreaPiketByNamaGuru($name);//
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');

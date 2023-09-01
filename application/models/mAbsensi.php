@@ -68,6 +68,13 @@ class mAbsensi extends CI_Model {
         return $kelasWithoutAbsensi;
     }
 
+    public function GetAreaPiketByNamaGuru($nama_guru) {
+        $this->db->select('area_piket');
+        $this->db->where('username', $nama_guru);
+        $query = $this->db->get('tb_jadwal_gurupiket');
+        return $query->result_array();
+    }
+
     public function insert_absensi($data)
     {
         return $this->db->insert_batch('tb_absensi', $data);
