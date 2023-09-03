@@ -39,6 +39,12 @@ class mAbsensi extends CI_Model {
         return $query->result();
 	}
 
+    function GetAllDataKelas()
+    {
+        $query = $this->db->get('tb_kelas');
+        return $query->result();
+    }
+
     function GetDataHari()
 	{
 		$query = $this->db->get('tb_hari');
@@ -53,9 +59,9 @@ class mAbsensi extends CI_Model {
         return $query->num_rows() > 0;
     }
 
-    function GetKelasBelumAbsen($kelas, $tanggal)
+    function GetKelasBelumAbsenA($tanggal)
     {
-        $kelasData = $this->GetDataKelas($kelas); // Mengambil data kelas
+        $kelasData = $this->GetAllDataKelas();
 
         $kelasWithoutAbsensi = array();
         
@@ -68,10 +74,48 @@ class mAbsensi extends CI_Model {
         return $kelasWithoutAbsensi;
     }
 
+    function GetKelasBelumAbsen($kelas, $tanggal)
+    {
+        $kelasData = $this->GetDataKelas($kelas);
+
+        $kelasWithoutAbsensi = array();
+        
+        foreach ($kelasData as $kelas) {
+            if (!$this->absensi_exists($kelas->nama_kelas, $tanggal)) {
+                $kelasWithoutAbsensi[] = $kelas;
+            }
+        }
+
+        return $kelasWithoutAbsensi;
+    }
+
+    function GetAllKelasBelumAbsen($nama, $tanggal)
+    {
+        $kelasData = $this->GetAreaPiketByNamaGuru($nama);
+        $kelasWithoutAbsensi = array();
+        $dayId = date('N', strtotime(TODAY_DATE));
+
+        foreach ($kelasData as $kelas) {
+            if ($kelas['id_hari'] != $dayId) {
+                $kelasWithoutAbsensi[] = "Hari ini tidak ada jadwal piket";
+            }
+            else {
+                $kelasArray = explode(',', $kelas['area_piket']);
+                foreach ($kelasArray as $kelasItem) {
+                    $kelasItem = trim($kelasItem);
+                    if (!$this->absensi_exists($kelasItem, $tanggal)) {
+                        $kelasWithoutAbsensi[] = $kelasItem;
+                    }
+                }
+            }   
+        }
+        return $kelasWithoutAbsensi;
+    }
+
     public function GetAreaPiketByNamaGuru($nama_guru) {
-        $this->db->select('area_piket');
+        $this->db->select('area_piket, id_hari');
         $this->db->where('username', $nama_guru);
-        $query = $this->db->get('tb_jadwal_gurupiket');
+        $query = $this->db->get('tb_users');
         return $query->result_array();
     }
 

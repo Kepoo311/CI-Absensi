@@ -35,14 +35,14 @@ class Gurupiket extends CI_Controller {
 		$this->load->view('guru_piket/layouts/script');
 	}
 
-	public function absen_xii()
+	public function input_absensi()
 	{
 		if ($this->session->userdata('role') != 'Guru Piket') {
 			redirect('','refresh');
 		}
 
 		$name = $this->session->userdata('nama');
-		$data['kelas'] = $this->mabsensi->GetAreaPiketByNamaGuru($name);//
+		$data['kelas'] = $this->mabsensi->GetAllKelasBelumAbsen($name, TODAY_DATE);
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');
@@ -59,7 +59,7 @@ class Gurupiket extends CI_Controller {
 		}
 
 		$tanggal = TODAY_DATE;
-		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsen('XI ', $tanggal);
+		$data['kelas'] = $this->mabsensi->GetKelasBelumAbsenA($tanggal);
 
 		$this->load->view('guru_piket/layouts/meta');
 		$this->load->view('guru_piket/layouts/navbar');

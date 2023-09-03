@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 
-		$query = $this->db->get_where('tb_jadwal_gurupiket',['username' => $username])->row_array();
+		$query = $this->db->get_where('tb_users',['username' => $username])->row_array();
 
 		if ($query) {
 			if (password_verify($password, $query['password'])) 

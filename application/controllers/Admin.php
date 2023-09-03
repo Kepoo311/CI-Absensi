@@ -515,13 +515,14 @@ class Admin extends CI_Controller {
                 $data_jadwal = array(
                     'id_hari' => $data['id_hari'],
 					'nama_hari' => $data['nama_hari'],
+					'username' => $data['username'],
 					'id_guru' => $data['id_guru'],
 					'nama_guru' => $data['nama_guru'],
 					'area_piket' => $data['area_piket'],
 					'ket' => $data['ket']
                 );
 
-                $this->db->insert('tb_jadwal_gurupiket', $data_jadwal);
+                $this->db->insert('tb_users', $data_jadwal);
             }
 
 			$this->session->set_flashdata('success', 'Import data Jadwal berhasil');
@@ -629,7 +630,7 @@ class Admin extends CI_Controller {
 	{
 	    $hari = $_POST['hari'];
 
-	    $query = $this->db->get_where('tb_jadwal_gurupiket', array('nama_hari' => $hari));
+	    $query = $this->db->get_where('tb_users', array('nama_hari' => $hari, 'role' => 'Guru Piket'));
 	    $jadwal_gurupiket = $query->result();
 
 		$data = '';

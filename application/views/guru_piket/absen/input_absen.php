@@ -51,10 +51,7 @@
                 <select id="kelas" class="form-control select2" style="width: 100%;" required="">
                   <option value="">-- Pilih Kelas --</option>
                   <?php foreach ($kelas as $kelas): ?>
-                    <?php $kelasArray = explode(',', $kelas['area_piket']); ?>
-                    <?php foreach ($kelasArray as $kelasItem): ?>
-                      <option value="<?php echo trim($kelasItem); ?>"><?php echo trim($kelasItem); ?></option>
-                    <?php endforeach; ?>
+                      <option value="<?php echo $kelas; ?>"><?php echo $kelas; ?></option>
                   <?php endforeach ?>
                 </select>
               </div>
@@ -83,7 +80,7 @@
               <div class="form-group">
                 <div class="input-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="bukti" name="bukti" accept=".png, .jpg" required>
+                    <input type="file" class="custom-file-input" id="bukti" name="bukti" accept=".png, .jpg">
                     <label class="custom-file-label" for="bukti">Upload File</label>
                   </div>
                 </div>

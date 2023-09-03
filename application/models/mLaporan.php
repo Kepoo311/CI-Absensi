@@ -68,18 +68,31 @@ class mLaporan extends CI_Model {
     return $this->db->query($query)->result();
     }
 
-   public function getAbsensiDataByDate($tanggal, $bulan) {
+    public function getAbsensiDataByDate($tanggal, $bulan) {
 
-     $query = "SELECT dg.nama_guru,
-         SUM(CASE WHEN da.status_absen = 'Hadir' THEN 1 ELSE 0 END) AS hadir,
-         SUM(CASE WHEN da.status_absen = 'Sakit' THEN 1 ELSE 0 END) AS sakit,
-         SUM(CASE WHEN da.status_absen = 'Ijin' THEN 1 ELSE 0 END) AS izin,
-         SUM(CASE WHEN da.status_absen = 'Alpa' THEN 1 ELSE 0 END) AS alpa
-     FROM tb_guru dg 
-     LEFT JOIN tb_absensi da ON dg.nama_guru = da.nama_guru AND DAY(da.tanggal) = '$tanggal' AND MONTH(da.tanggal) = '$bulan'
-     GROUP BY dg.id_guru";
+        $query = "SELECT
+            dg.nama_guru,
+            SUM(CASE WHEN selected_da.max_priority = 4 THEN 1 ELSE 0 END) AS hadir,
+            SUM(CASE WHEN selected_da.max_priority = 3 THEN 1 ELSE 0 END) AS sakit,
+            SUM(CASE WHEN selected_da.max_priority = 2 THEN 1 ELSE 0 END) AS izin,
+            SUM(CASE WHEN selected_da.max_priority = 1 THEN 1 ELSE 0 END) AS alpa
+        FROM tb_guru dg
+        LEFT JOIN (
+            SELECT
+                nama_guru,
+                MAX(CASE
+                    WHEN status_absen = 'Hadir' THEN 4
+                    WHEN status_absen = 'Sakit' THEN 3
+                    WHEN status_absen = 'Ijin' THEN 2
+                    ELSE 1
+                END) AS max_priority
+            FROM tb_absensi
+            WHERE DAY(tanggal) = '$tanggal' AND MONTH(tanggal) = '$bulan'
+            GROUP BY nama_guru
+        ) AS selected_da ON dg.nama_guru = selected_da.nama_guru
+        GROUP BY dg.nama_guru";
 
-     return $this->db->query($query)->result();
+        return $this->db->query($query)->result();
     }
 
     public function getAbsensiDataByMonth($bulan, $guru)
@@ -99,17 +112,51 @@ class mLaporan extends CI_Model {
 
     public function getLaporanData($bulan)
     {
-        $query = "SELECT dg.nama_guru,
-            SUM(CASE WHEN da.status_absen = 'Hadir' THEN 1 ELSE 0 END) AS total_hadir,
-            SUM(CASE WHEN da.status_absen = 'Sakit' THEN 1 ELSE 0 END) AS total_sakit,
-            SUM(CASE WHEN da.status_absen = 'Ijin' THEN 1 ELSE 0 END) AS total_izin,
-            SUM(CASE WHEN da.status_absen = 'Alpa' THEN 1 ELSE 0 END) AS total_alpa,
-            GROUP_CONCAT(da.keterangan) AS keterangan
+        $query = "SELECT
+            dg.nama_guru,
+            SUM(CASE WHEN selected_da.max_priority = 4 THEN 1 ELSE 0 END) AS total_hadir,
+            SUM(CASE WHEN selected_da.max_priority = 3 THEN 1 ELSE 0 END) AS total_sakit,
+            SUM(CASE WHEN selected_da.max_priority = 2 THEN 1 ELSE 0 END) AS total_izin,
+            SUM(CASE WHEN selected_da.max_priority = 1 THEN 1 ELSE 0 END) AS total_alpa
         FROM tb_guru dg
-        LEFT JOIN tb_absensi da ON dg.nama_guru = da.nama_guru AND MONTH(da.tanggal) = '$bulan'
-        GROUP BY dg.id_guru";
+        LEFT JOIN (
+            SELECT
+                nama_guru,
+                MAX(CASE
+                    WHEN status_absen = 'Hadir' THEN 4
+                    WHEN status_absen = 'Sakit' THEN 3
+                    WHEN status_absen = 'Ijin' THEN 2
+                    ELSE 1
+                END) AS max_priority
+            FROM (
+                SELECT DISTINCT nama_guru, tanggal, status_absen
+                FROM tb_absensi
+            ) AS distinct_absensi
+            WHERE MONTH(tanggal) = '$bulan'
+            GROUP BY nama_guru, tanggal
+        ) AS selected_da ON dg.nama_guru = selected_da.nama_guru
+        GROUP BY dg.nama_guru";
 
         return $this->db->query($query)->result();
+    }
+
+    public function count($absensiData)
+    {
+        $countData = array(
+            'total_hadir' => 0,
+            'total_sakit' => 0,
+            'total_izin' => 0,
+            'total_alpa' => 0
+        );
+
+        foreach ($absensiData as $absen) {
+            $countData['total_hadir'] += $absen->hadir;
+            $countData['total_sakit'] += $absen->sakit;
+            $countData['total_izin'] += $absen->izin;
+            $countData['total_alpa'] += $absen->alpa;
+        }
+
+        return $countData;
     }
 
     public function getDataLaporanSiswa($bulan, $kelas)
