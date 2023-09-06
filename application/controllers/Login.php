@@ -40,6 +40,7 @@ class Login extends CI_Controller {
 					'nama' => $query['username'],
 					'session' => date('d-m-Y H:m:s'),
 					'role' => $query['role'],
+					'nama_hari' => $query['nama_hari'],
 				];
 				
 				$this->session->set_userdata( $data );

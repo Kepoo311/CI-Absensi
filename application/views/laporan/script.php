@@ -90,7 +90,7 @@
         },
         error:function()
         {
-          alert('error ' + selectedMonth + '');
+          alert('error: ' + selectedMonth + '  kelas:'+ kelas);
         }
       })
     });

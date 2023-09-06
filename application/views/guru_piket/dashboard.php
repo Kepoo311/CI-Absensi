@@ -25,7 +25,7 @@
         <div class="col-12 col-sm-9">
           <div class="alert alert-light alert-dismissible">
             <h5><i class="icon fas fa-hand-paper"></i> Selamat datang <?= $this->session->userdata('nama'); ?>!</h5>
-            Kamu login sebagai <?= $this->session->userdata('role'); ?>.
+            Kamu login sebagai <?= $this->session->userdata('role'); ?> hari <?= $this->session->userdata('nama_hari'); ?>.
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-3">

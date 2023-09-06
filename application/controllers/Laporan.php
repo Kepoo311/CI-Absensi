@@ -129,7 +129,8 @@ class Laporan extends CI_Controller {
           if ($total_kehadiran > 0) 
           {
               $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
-              $data .= '<td style="vertical-align : middle; text-align: center;">'. $persentasi_kehadiran .'%</td>';
+              $formatted_persentasi = number_format($persentasi_kehadiran);
+              $data .= '<td style="vertical-align : middle; text-align: center;">'. $formatted_persentasi .'%</td>';
           } else {
               $data .= '<td style="vertical-align : middle; text-align: center;">-</td>';
           } 
@@ -362,30 +363,26 @@ class Laporan extends CI_Controller {
       $data .= '<tbody>';
       $no = 1; 
       $guru = $this->mlaporan->get_data_guru();
-      foreach ($guru as $row) 
+      $absensi_data = $this->mlaporan->getLaporanData($bulan);
+      foreach ($absensi_data as $row) 
       {
         $data .= '<tr>';
         $data .= '<td style="vertical-align : middle; text-align: center;">'. $no++ .'</td>';
         $data .= '<td >'. $row->nama_guru .'</td>';
-        $absensi_data = $this->mlaporan->getAbsensiDataByMonth($bulan, $row->nama_guru);
-
-        foreach ($absensi_data as $row) 
+        $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
+        $data .= '<td style="vertical-align : middle; text-align: center;">' . $total_kehadiran .'</td>';
+        $data .= '<td style="vertical-align : middle; text-align: center;">' . $row->total_hadir .'</td>';
+        $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_sakit .'</td>';
+        $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_izin .'</td>';
+        $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_alpa .'</td>';
+        if ($total_kehadiran > 0) 
         {
-          $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
-          $data .= '<td style="vertical-align : middle; text-align: center;">' . $total_kehadiran .'</td>';
-          $data .= '<td style="vertical-align : middle; text-align: center;">' . $row->total_hadir .'</td>';
-          $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_sakit .'</td>';
-          $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_izin .'</td>';
-          $data .= '<td style="vertical-align : middle; text-align: center;">'. $row->total_alpa .'</td>';
-          if ($total_kehadiran > 0) 
-          {
-              $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
-              $data .= '<td style="vertical-align : middle; text-align: center;">'. $persentasi_kehadiran .'%</td>';
-          } else {
-              $data .= '<td style="vertical-align : middle; text-align: center;">-</td>';
-          } 
-          
-        }
+            $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
+            $formatted_persentasi = number_format($persentasi_kehadiran);
+            $data .= '<td style="vertical-align : middle; text-align: center;">'. $formatted_persentasi .'%</td>';
+        } else {
+            $data .= '<td style="vertical-align : middle; text-align: center;">-</td>';
+        } 
 
         $data .= '</tr>';
       }

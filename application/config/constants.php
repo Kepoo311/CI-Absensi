@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-define('TODAY_DATE', date('2023-08-29'));
+define('TODAY_DATE', date('2023-08-25'));
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace
