@@ -82,12 +82,10 @@ class Laporan extends CI_Controller {
       $kelas = $_POST['kelas'];
       $namaBulan = date('F', mktime(0, 0, 0, $bulan, 1));
 
-      $guru = $this->db->get('tb_guru')->result();
-
       $data = '';
       $data .= '<div class="container-fluid">
           <div style="text-align:center" class="card-header">
-            <h3 class="card-title">Data Kehadiran Guru - ';
+            <h3 class="card-title">Data Kehadiran Siswa - ';
       $data .= $namaBulan;
       $data .= '</h3>
           </div>
@@ -110,8 +108,8 @@ class Laporan extends CI_Controller {
                 </thead>';
       $data .= '<tbody>';
       $no = 1; 
-      $kelas = $this->mlaporan->get_data_siswa($kelas);
-      foreach ($kelas as $row) 
+      $kelass = $this->mlaporan->get_data_siswa($kelas);
+      foreach ($kelass as $row) 
       {
         $data .= '<tr>';
         $data .= '<td style="vertical-align : middle; text-align: center;">'. $no++ .'</td>';
@@ -296,9 +294,10 @@ class Laporan extends CI_Controller {
           // Hitung persentasi kehadiran
           if ($total_kehadiran > 0) {
               $persentasi_kehadiran = ($absensi->total_hadir / $total_kehadiran) * 100;
-              $sheet->setCellValue('AM' . $rowNumber, $persentasi_kehadiran . '%');
+              $formatted_persentasi = number_format($persentasi_kehadiran);
+              $sheet->setCellValue('AM' . $rowNumber, $formatted_persentasi . '%');
           } else {
-              $persentasi_kehadiran = '-';
+              $formatted_persentasi = '-';
           }
 
           $sheet->getStyle('AM' .$rowNumber. ':AN' .$rowNumber. '')->applyFromArray([
@@ -542,9 +541,10 @@ class Laporan extends CI_Controller {
           // Hitung persentasi kehadiran
           if ($total_kehadiran > 0) {
               $persentasi_kehadiran = ($absensi->total_hadir / $total_kehadiran) * 100;
-              $sheet->setCellValue('AN' . $rowNumber, $persentasi_kehadiran . '%');
+              $formatted_persentasi = number_format($persentasi_kehadiran);
+              $sheet->setCellValue('AN' . $rowNumber, $formatted_persentasi . '%');
           } else {
-              $persentasi_kehadiran = '-';
+              $formatted_persentasi = '-';
           }
 
           $sheet->setCellValue('AM' . $rowNumber, $total_kehadiran);

@@ -66,7 +66,7 @@
         <div class="card card-default">
           <div class="container-fluid">
             <div class="card-header">
-              <h3 class="card-title"><?= $row->kelas ?></h3>
+              <h3 class="card-title" style="font-family: 'Quicksand', sans-serif; font-weight: bold;"><?= $row->kelas ?></h3>
               <div class="card-tools">
                 <a href="#" class="btn btn-tool open-modal" data-kelas="<?php echo str_replace(' ', '-', $row->kelas); ?>" data-tanggal="<?php echo TODAY_DATE; ?>">
                   <i class="fas fa-camera"></i>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SMKN 4 - Absensi</title>
+  <title>SMKN 4 - Ganti Password</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -23,42 +23,43 @@
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="#" class="h1"><b>Absensi </b>Guru</a>
+        <a href="#" class="h1"><b>Change </b>Password</a>
     </div>
     <div class="card-body">
       <div class="flashdata" data-flashdata="<?php echo $this->session->flashdata('error'); ?>">
-      <div class="flash_success" data-flash_success="<?php echo $this->session->flashdata('success'); ?>"></div>
-
+      
       </div>
       <div class="text-center">
         <img src="<?= base_url()?>assets/dist/img/SkanpatLogo.png">
       </div>
       <br>
-      <form action="<?php echo base_url(); ?>" method="post">
+      <form action="<?php echo site_url(); ?>login/change_password" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?php echo set_value('username') ?>">
+        <input type="password" name="passwordLama" id="passwordlama" class="form-control" placeholder="Password Sekarang" value="<?php echo set_value('passwordLama') ?>">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+              <span class="fas fa-lock"></span>
             </div>
           </div>
-        </div><p><?php echo form_error('username') ?></p>
+        </div><p><?php echo form_error('passwordlama') ?></p>
         <div class="input-group mb-3">
-          <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+        <input type="password" name="passwordBaru" id="passwordBaru" class="form-control" placeholder="Password Baru">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
-        <p><?php echo form_error('password') ?></p>
+        <p><?php echo form_error('passwordBaru') ?></p>
         <div class="row">
           <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">Ganti password</button>
           </div>
-          <!-- /.col -->
         </div>
+        <p class="mt-3 mb-1">
+          <a href="<?php echo site_url(); ?>gurupiket">Kembali</a>
+        </p>
       </form>
 
     </div>
@@ -81,12 +82,6 @@
   if (flashdata) {
     toastr.warning(flashdata)
   }
-</script>
-<script>
-	const flash_success = $('.flash_success').data('flash_success');
-	if (flash_success) {
-		toastr.success(flash_success)
-	}
 </script>
 </body>
 </html>

@@ -7,6 +7,16 @@ class mInputData extends CI_Model {
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
+    public function update_password($user_id, $new_password)
+    {
+        $data = array(
+            'password' => $new_password
+        );
+
+        $this->db->where('id', $user_id);
+        $this->db->update('tb_users', $data);
+    }
+
     function GetDataUsers()
     {
         $query = $this->db->get('tb_users');

@@ -62,7 +62,7 @@
       <div class="card card-default table-responsive" id="laporanBulanSiswa">
         <div class="container-fluid">
           <div style="text-align:center" class="card-header">
-            <h3 class="card-title">Data Kehadiran Siswa - <?= date('F'); ?></h3>
+            <h3 class="card-title">Pilih Kelas dan Bulan Terlebih Dahulu</h3>
           </div>
           <br>
           <table id="" style="border-collapse: collapse; width:100%" class="table table-hover table-bordered custom-td">
@@ -81,36 +81,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no = 1; ?>
-                <?php 
-                    $siswa = $this->mlaporan->get_data_siswa('XII PPLG');
-                    foreach ($siswa as $row): 
-                ?>
-                <tr>
-                  <td><?= $no++ ?></td>
-                  <td ><?= $row->nama_siswa ?></td>
-                  <?php $absensi_data = $this->mlaporan->getAbsensiSiswaByMonth($bulan = date('m'), $row->nama_siswa); ?>
-                  <?php foreach ($absensi_data as $row): ?>
-                  <td><?php echo $row->total_hadir; ?></td>
-                  <td><?php echo $row->total_sakit; ?></td>
-                  <td><?php echo $row->total_izin; ?></td>
-                  <td><?php echo $row->total_alpa; ?></td>
-                  <td>
-                  <?php 
-                    $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
-
-                    if ($total_kehadiran > 0) {
-                        $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
-                        echo $persentasi_kehadiran . '%';
-                    } else {
-                        echo '-';
-                    } 
-                  ?>
                 
-                  </td>
-                  <?php endforeach; ?>
-                </tr>
-                <?php endforeach; ?>
               </tbody>
           </table>
           <br>

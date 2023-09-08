@@ -30,6 +30,7 @@ class Login extends CI_Controller {
 		$password = $this->input->post('password');
 
 		$query = $this->db->get_where('tb_users',['username' => $username])->row_array();
+		$default_password = 'smkn4bdl';
 
 		if ($query) {
 			if (password_verify($password, $query['password'])) 
@@ -49,7 +50,16 @@ class Login extends CI_Controller {
 					redirect('admin','refresh');
 				}
 				else if ($query['role'] == 'Guru Piket') {
-					redirect('gurupiket','refresh');
+					if (password_verify($default_password, $query['password'])) 
+					{
+						$this->session->set_flashdata('error', 'Anda belum mengganti password default, Ubahlah Segera!');
+						redirect('gurupiket','refresh');
+					}
+					else
+					{
+						$this->session->set_flashdata('success', 'Login berhasil');
+						redirect('gurupiket','refresh');
+					}
 				}
 				else {
 					redirect('admin','refresh');
@@ -64,6 +74,39 @@ class Login extends CI_Controller {
 			redirect('','refresh');
 		}
 	}
+
+	public function change_password()
+	{
+		$this->form_validation->set_rules('passwordLama', 'Password Lama', 'trim|required');
+        $this->form_validation->set_rules('passwordBaru', 'Password Baru', 'trim|required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('login/change_pw');
+        } else {
+            $this->_ganti_password();
+        }
+    }
+
+    private function _ganti_password()
+    {
+        $passwordLama = $this->input->post('passwordLama');
+        $passwordBaru = $this->input->post('passwordBaru');
+
+        $username = $this->session->userdata('nama');
+        $user = $this->db->get_where('tb_users',['username' => $username])->row_array();
+
+        if (password_verify($passwordLama, $user['password'])) {
+            $hashed_password = password_hash($passwordBaru, PASSWORD_DEFAULT);
+            
+			$this->minputdata->update_password($user['id'], $hashed_password);
+
+            $this->session->set_flashdata('success', 'Password Berhasil Diganti, Silahkan Login Kembali');
+			redirect('','refresh');
+        } else {
+            $this->session->set_flashdata('error', 'Password Lama Salah!');
+			redirect('login/change_password','refresh');
+        }
+    }
 
 	public function logout()
 	{

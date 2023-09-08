@@ -93,6 +93,13 @@ $segmen3 = $this->uri->segment(3);
               </li>
             </ul>
           </li>
+          <li class="nav-header">Account</li>
+          <li class="nav-item">
+            <a href="<?php echo site_url(); ?>login/change_password" class="nav-link">
+            <i class="nav-icon fas fa-key"></i>
+              <p>Ganti Password</p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

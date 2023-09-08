@@ -56,7 +56,7 @@
       <div class="card card-default table-responsive" id="laporanBulan">
         <div class="container-fluid">
           <div style="text-align:center" class="card-header">
-            <h3 class="card-title">Data Kehadiran Guru - <?= date('F'); ?></h3>
+            <h3 class="card-title">Pilih Bulan terlebih Dahulu</h3>
           </div>
           <br>
           <table id="tbllaporanBulan" style="border-collapse: collapse; width:100%" class="table table-hover table-bordered custom-td">
@@ -76,43 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php $no = 1; ?>
-                <?php 
-                    $guru = $this->mlaporan->get_data_guru();
-                    foreach ($guru as $row): 
-                ?>
-                <tr>
-                  <td><?= $no++ ?></td>
-                  <td ><?= $row->nama_guru ?></td>
-                  <?php $absensi_data = $this->mlaporan->getAbsensiDataByMonth($bulan = date('m'), $row->nama_guru); ?>
-                  <?php foreach ($absensi_data as $row): ?>
-                  <td>
-                  <?php 
-                    $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
-
-                    echo $total_kehadiran;
-                  ?>
-                  </td>
-                  <td><?php echo $row->total_hadir; ?></td>
-                  <td><?php echo $row->total_sakit; ?></td>
-                  <td><?php echo $row->total_izin; ?></td>
-                  <td><?php echo $row->total_alpa; ?></td>
-                  <td>
-                  <?php 
-                    $total_kehadiran = $row->total_hadir + $row->total_sakit + $row->total_izin + $row->total_alpa;
-
-                    if ($total_kehadiran > 0) {
-                        $persentasi_kehadiran = ($row->total_hadir / $total_kehadiran) * 100;
-                        echo $persentasi_kehadiran . '%';
-                    } else {
-                        echo '-';
-                    } 
-                  ?>
                 
-                  </td>
-                  <?php endforeach; ?>
-                </tr>
-                <?php endforeach; ?>
               </tbody>
           </table>
           <br>

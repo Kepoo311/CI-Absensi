@@ -88,9 +88,15 @@
         {
           $('#laporanBulanSiswa').html(data);
         },
-        error:function()
-        {
-          alert('error: ' + selectedMonth + '  kelas:'+ kelas);
+        error: function (xhr, status, error) {
+          console.error('Terjadi kesalahan:');
+          console.error('Status error: ' + status);
+          console.error('Error: ' + error);
+          console.error('Bulan yang dipilih: ' + selectedMonth);
+          console.error('Kelas: ' + kelas);
+
+          // Jika Anda ingin menampilkan juga pesan kesalahan dalam bentuk pop-up alert, Anda bisa menambahkannya seperti ini:
+          alert('Terjadi kesalahan: ' + selectedMonth + ' kelas: ' + kelas);
         }
       })
     });
